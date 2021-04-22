@@ -15,8 +15,8 @@ def shift_list(list):
 class World:
     def __init__(self):
         self.current_time = 0
-        self.resources = 1000
-        self.base_resources = 1000
+        self.resources = 500
+        self.base_resources = 500
     def get_resources(self):
         return self.resources
     def reset(self):
