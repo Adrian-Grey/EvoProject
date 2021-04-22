@@ -1,6 +1,6 @@
 import logging
 import random
-logging.basicConfig(filename='debug.txt',level=logging.DEBUG, filemode='w')
+logging.basicConfig(filename='debug.txt',level=logging.ERROR, filemode='w')
 
 def shift_list(list):
     item = None
@@ -10,7 +10,18 @@ def shift_list(list):
     return item
 
 #Next steps:
-#Add resource & fitness system, using existing cull def
+#make time system, rearrange data output (have output.html request and output data itself)
+
+class World:
+    def __init__(self):
+        self.current_time = 0
+        self.resources = 1000
+        self.base_resources = 1000
+    def get_resources(self):
+        return self.resources
+    def reset(self):
+        logging.debug(f'Resetting. Resources: {self.resources}')
+        self.resources = self.base_resources
 
 class Population:
     def __init__(self):
@@ -61,6 +72,8 @@ class Organism:
 
         self.age = 0
         self.breed_score = 100
+        self.fitness = 100
+        self.has_fed = True
         self.id = id
         logging.debug(f'Creating Organism: {self.id}')
 
@@ -68,16 +81,30 @@ class Organism:
         return (self.age >= 2)
 
 class SystemManager:
+
+    def time_advance(self, world):
+        world.current_time += 1
+        logging.debug(f'Time advanced to {world.current_time}')
+
+    def resource_distribute(self, pop, world):
+        fitness_list = sorted(pop.get_all(), key=lambda item: item.fitness, reverse = True)
+        for org in fitness_list:
+            if world.resources > 0:
+                org.has_fed = True
+                world.resources -= 1
+            else:
+                logging.debug(f'Organism {org.id} unfed.')
+                org.has_fed = False
+
     def cull(self, pop, maxAge):
         for org in pop.get_all():
-            if org.age >= maxAge:
-                logging.debug(f'Culling Organism: {org.id}')
+            if org.age >= maxAge or org.has_fed == False:
+                logging.debug(f'Culling Organism: {org.id}. Fed: {org.has_fed}')
                 del pop.items[org.id]
 
-    def logPopulation(self, pop, report):
-        logging.debug(f'Population at year {pop.current_year}')
+    def logPopulation(self, pop, report, world):
         for organism in pop.items.values():
-            report.append(f'{pop.current_year},{organism.id},{organism.age},{organism.properties["r"]},{organism.properties["g"]},{organism.properties["b"]}')
+            report.append(f'{world.current_time},{organism.id},{organism.age},{organism.properties["r"]},{organism.properties["g"]},{organism.properties["b"]}')
 
     def calcBreedScore(self, pop):
         for organism in pop.items.values():
@@ -91,7 +118,22 @@ class SystemManager:
             organism.breed_score += redness * -1 * 50
             organism.breed_score += blueness * 1 * 50
             organism.breed_score += greenness * 0 * 50
-            logging.debug(f'Organism {organism.id} breed_score: : {organism.breed_score}\n redness: {redness}, greenness: {greenness}, blueness: {blueness}')
+            #logging.debug(f'Organism {organism.id} breed_score: : {organism.breed_score}\n redness: {redness}, greenness: {greenness}, blueness: {blueness}')
+
+    def calcFitness(self, pop):
+        for organism in pop.items.values():
+            organism.fitness = 100
+            r = organism.properties["r"]/255
+            g = organism.properties["g"]/255
+            b = organism.properties["b"]/255
+            redness = max(0, r - ((b + g)/2))
+            greenness = max(0, g - ((r + b)/2))
+            blueness = max(0, b - ((r + g)/2))
+            organism.fitness += redness * 1 * 50
+            organism.fitness += blueness * -1 * 50
+            organism.fitness += greenness * 0 * 50
+            logging.debug(f'Organism {organism.id} fitness: : {organism.fitness}\n redness: {redness}, greenness: {greenness}, blueness: {blueness}')
+
 
     def selectPairs(self, pop):
         males = []
@@ -150,20 +192,26 @@ class SystemManager:
         for organism in pop.items.values():
             organism.age += 1
 
-    def Update(self, pop, maxAge):
+    def Update(self, pop, maxAge, world):
         # A new breeding season
-        self.cull(pop, maxAge)
+        logging.debug(f"Population at start of timestep {world.current_time}: {len(pop.get_all())}")
+        self.calcFitness(pop)
+        self.resource_distribute(pop, world)
         self.incrementAge(pop)
         self.calcBreedScore(pop)
         pairs = self.selectPairs(pop)
         for pair in pairs:
             self.breedPair(pair, pop)
+        self.cull(pop, maxAge)
+        logging.debug(f"Population at end of timestep {world.current_time}: {len(pop.get_all())}")
+        world.reset()
+        self.time_advance(world)
 
 
 def main():
     report = []
+    population_report = []
     pop = Population()
-    pop.current_year = 0
     maxAge = 3
     r = ColorAllele("red")
     b = ColorAllele("blue")
@@ -183,17 +231,22 @@ def main():
     pop.addOrganism(Organism([r, b], pop.nextId()))
     # Define the initial Adam & Eve generation
     manager = SystemManager()
+    world = World()
     # Output the CSV column headers
-    report.append(f'Year,ID,Age,Red,Green,Blue')
-    while pop.current_year < 10:
-        pop.current_year += 1
-        manager.Update(pop, maxAge)
-        manager.logPopulation(pop, report)
+    report.append(f'Time,ID,Age,Red,Green,Blue')
+    while world.current_time < 50:
+        manager.Update(pop, maxAge, world)
+        manager.logPopulation(pop, report, world)
+        population_report.append(len(pop.get_all()))
 
     output = open("output.csv", "wt")
     for item in report:
         output.write(f"{item}\n")
     output.close()
+
+    output = open("population.csv", "wt")
+    for item in population_report:
+        output.write(f"{item}\n")
     # write out the report list to a file
 
 

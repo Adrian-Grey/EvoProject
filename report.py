@@ -18,7 +18,7 @@ def main():
         reader = csv.reader(csvfile, delimiter=',')
         for row in reader:
             if reader.line_num > 1:
-                str = row_template.substitute(year = row[0], id = row[1], age = row[2], red = row[3], green = row[4], blue = row[5])
+                str = row_template.substitute(time = row[0], id = row[1], age = row[2], red = row[3], green = row[4], blue = row[5])
                 all_rows += str + "\n"
 
     html = report_template.substitute(rows = all_rows)
