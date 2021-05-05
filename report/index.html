@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+   <meta charset="utf-8">
+   <title>EvoProject Report</title>
+  <link rel="stylesheet" href="./style.css" type="text/css" />
+</head>
+<body>
+<section>
+</section>
+
+<script>
+  function createItem(entry) {
+    let elem = document.createElement("div");
+    elem.classList.add("organism");
+    elem.classList.add("year-" + entry.time);
+    elem.classList.add("age-" + entry.age);
+    elem.dataset.age = entry.age;
+    elem.dataset.period = entry.time;
+    elem.style.backgroundColor = `rgba(${entry.red}, ${entry.green}, ${entry.blue})`;
+    return elem;
+  }
+
+  async function init() {
+    let resp = await fetch("../output.csv");
+    let store = new CSVStore(
+      await resp.text(), 
+      { 
+        Time: "int",
+        ID: "int",
+        Age: "int",
+        Red: "int",
+        Green: "int",
+        Blue: "int"
+      }
+    );
+    let periods = new Set();
+    let results = store.query({});
+    console.log("got results:", results);
+
+    let fragment = document.createDocumentFragment();
+    let group;
+    for (let entry of results) {
+      let elem = createItem(entry);
+      let period = entry.time;
+      if (!periods.has(period)) {
+        periods.add(period);
+        group = document.createElement("details");
+        let summary = document.createElement("summary");
+        summary.textContent = period;
+        group.appendChild(summary);
+        fragment.appendChild(group);
+      }
+      group.appendChild(elem);
+    }
+    document.querySelector("section").appendChild(fragment);
+
+    requestAnimationFrame(() => {
+      document.body.appendChild(fragment);
+      document.querySelector("details:last-of-type").open = true;
+    });
+  }
+  init();
+</script>
+<script src="./csvstore.js"></script>
+</body>
+</html>
