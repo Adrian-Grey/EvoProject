@@ -3,7 +3,7 @@ import random
 import traits
 from alleles import *
 
-#Fix traits/alleles implementation in evo1
+#Investigate sexual vs fitness selection paradigm
 
 logging.basicConfig(filename='debug.txt',level=logging.DEBUG, filemode='w')
 
@@ -18,12 +18,16 @@ class World:
     def __init__(self):
         self.current_time = 0
         self.resources = 500
-        self.base_resources = 500
+        self.resource_increment = 50
+        self.resource_cap = 500
     def get_resources(self):
         return self.resources
-    def reset(self):
-        logging.debug(f'Resetting. Resources: {self.resources}')
-        self.resources = self.base_resources
+    def increment(self):
+        logging.debug(f'Incrementing world. Resources: {self.resources} + {self.resource_increment} = {self.resources + self.resource_increment}.')
+        self.resources += self.resource_increment
+        if self.resources > self.resource_cap:
+            self.resources = self.resource_cap
+            logging.debug(f'Resource count set to cap: {self.resource_cap}')
 
 class Population:
     def __init__(self):
@@ -176,7 +180,7 @@ class SystemManager:
 
             random.shuffle(both_alleles)
 
-            logging.debug(f"both_alleles length: {len(both_alleles)}")
+            #logging.debug(f"both_alleles length: {len(both_alleles)}")
 
             for allele in both_alleles[0:2]:
                 child_alelles.append(allele)
@@ -205,7 +209,7 @@ class SystemManager:
             self.breedPair(pair, pop)
         self.cull(pop)
         logging.debug(f"Population at end of timestep {world.current_time}: {len(pop.get_all())}")
-        world.reset()
+        world.increment()
         self.time_advance(world)
 
 
