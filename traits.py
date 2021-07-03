@@ -1,3 +1,5 @@
+from alleles import *
+
 class Trait(dict):
     allele_ids = []
     def attach(self, attachee):
@@ -7,26 +9,28 @@ class Trait(dict):
         pass
 
 class _ColorationTrait(Trait):
-    allele_ids = ["red", "blue", "green"]
+    allele_type = "coloration"
     def attach(self, organism):
         organism.has_color = True
         super().attach(organism)
     def update(self, organism):
-        color_alleles = list(filter(lambda allele: allele.type in self.allele_ids, organism.alleles))
-        r = 0
-        g = 0
-        b = 0
+        color_alleles = list(filter(lambda allele: allele.type == self.allele_type, organism.alleles))
+        organism.r = 0
+        organism.g = 0
+        organism.b = 0
         for allele in color_alleles:
-            if allele.type == "red":
-                r += 255/2
-            elif allele.type == "green":
-                g += 255/2
-            elif allele.type == "blue":
-                b += 255/2
-        organism.greenness = max(0, g - ((r + b)/2))
-        organism.redness = max(0, r - ((b + g)/2))
-        organism.blueness = max(0, b - ((r + g)/2))
+            if allele == Coloration_Red:
+                organism.r += 255/2
+            elif allele == Coloration_Green:
+                organism.g += 255/2
+            elif allele == Coloration_Blue:
+                organism.b += 255/2
+            else:
+                 logging.debug("UNEXPECTED ALLELE IN COLOR CALC")
 
+        organism.greenness = max(0, organism.g - ((organism.r + organism.b)/2))
+        organism.redness = max(0, organism.r - ((organism.b + organism.g)/2))
+        organism.blueness = max(0, organism.b - ((organism.r + organism.g)/2))
 
 class _Efficiency(Trait):
     def update(self, organism):

@@ -1,6 +1,11 @@
 import logging
 import random
-logging.basicConfig(filename='debug.txt',level=logging.ERROR, filemode='w')
+import traits
+from alleles import *
+
+#Fix traits/alleles implementation in evo1
+
+logging.basicConfig(filename='debug.txt',level=logging.DEBUG, filemode='w')
 
 def shift_list(list):
     item = None
@@ -8,9 +13,6 @@ def shift_list(list):
         item = list[0]
         del list[0]
     return item
-
-#Next steps:
-#make time system, rearrange data output (have output.html request and output data itself)
 
 class World:
     def __init__(self):
@@ -44,41 +46,26 @@ class Population:
     def get_all(self):
         return list(self.items.values())
 
-class Allele:
-    def __init__(self):
-        pass
-
-class ColorAllele(Allele):
-    def __init__(self, type):
-        self.type = type
-
 class Organism:
-    def __init__(self, color_alleles, id):
-        # 0 = female, 1 = male
-        self.gender = random.randint(0,1)
-        self.color_alleles = color_alleles
-        self.properties = {
-            "r": 0,
-            "g": 0,
-            "b": 0,
-        }
-        for allele in color_alleles:
-            if allele.type == "red":
-                self.properties["r"] += 255/2
-            elif allele.type == "green":
-                self.properties["g"] += 255/2
-            elif allele.type == "blue":
-                self.properties["b"] += 255/2
-
-        self.age = 0
-        self.breed_score = 100
-        self.fitness = 100
-        self.has_fed = True
+    def __init__(self, alleles, traits, id):
         self.id = id
-        logging.debug(f'Creating Organism: {self.id}')
+        self.alleles = alleles
+        self.traits = traits
+        self.age = 0
+        self.has_fed = True
+        self.mature_age = 2
+        self.max_age = 5
+        self.gender = random.randint(0,1)
+        for trait in traits:
+            trait.attach(self)
+
+    def __getattr__(self, name):
+        # return something when requesting an attribute that doesnt exist on this instance
+        return None
 
     def could_breed(self):
-        return (self.age >= 2)
+        return self.age >= self.mature_age
+
 
 class SystemManager:
 
@@ -96,43 +83,31 @@ class SystemManager:
                 logging.debug(f'Organism {org.id} unfed.')
                 org.has_fed = False
 
-    def cull(self, pop, maxAge):
+    def cull(self, pop):
         for org in pop.get_all():
-            if org.age >= maxAge or org.has_fed == False:
-                logging.debug(f'Culling Organism: {org.id}. Fed: {org.has_fed}')
+            if org.age >= org.max_age or org.has_fed == False:
+                logging.debug(f'Culling Organism: {org.id}. Fed: {org.has_fed}. Age: {org.age}')
                 del pop.items[org.id]
 
     def logPopulation(self, pop, report, world):
         for organism in pop.items.values():
-            report.append(f'{world.current_time},{organism.id},{organism.age},{organism.properties["r"]},{organism.properties["g"]},{organism.properties["b"]}')
+            report.append(f'{world.current_time},{organism.id},{organism.age},{organism.r},{organism.g},{organism.b}')
 
     def calcBreedScore(self, pop):
         for organism in pop.items.values():
             organism.breed_score = 100
-            r = organism.properties["r"]/255
-            g = organism.properties["g"]/255
-            b = organism.properties["b"]/255
-            redness = max(0, r - ((b + g)/2))
-            greenness = max(0, g - ((r + b)/2))
-            blueness = max(0, b - ((r + g)/2))
-            organism.breed_score += redness * -1 * 50
-            organism.breed_score += blueness * 1 * 50
-            organism.breed_score += greenness * 0 * 50
+            organism.breed_score += organism.redness * -1 * 50
+            organism.breed_score += organism.blueness * 1 * 50
+            organism.breed_score += organism.greenness * 0 * 50
             #logging.debug(f'Organism {organism.id} breed_score: : {organism.breed_score}\n redness: {redness}, greenness: {greenness}, blueness: {blueness}')
 
     def calcFitness(self, pop):
         for organism in pop.items.values():
             organism.fitness = 100
-            r = organism.properties["r"]/255
-            g = organism.properties["g"]/255
-            b = organism.properties["b"]/255
-            redness = max(0, r - ((b + g)/2))
-            greenness = max(0, g - ((r + b)/2))
-            blueness = max(0, b - ((r + g)/2))
-            organism.fitness += redness * 1 * 50
-            organism.fitness += blueness * -1 * 50
-            organism.fitness += greenness * 0 * 50
-            logging.debug(f'Organism {organism.id} fitness: : {organism.fitness}\n redness: {redness}, greenness: {greenness}, blueness: {blueness}')
+            organism.fitness += organism.redness * 1 * 50
+            organism.fitness += organism.blueness * -1 * 50
+            organism.fitness += organism.greenness * 0 * 50
+            #logging.debug(f'Organism {organism.id} fitness: : {organism.fitness}\n redness: {organism.redness}, greenness: {organism.greenness}, blueness: {organism.blueness}')
 
 
     def selectPairs(self, pop):
@@ -175,24 +150,50 @@ class SystemManager:
         a = pair[0]
         b = pair[1]
         children_count = 2
-        outcomes = [
-            [a.color_alleles[0], b.color_alleles[0]],
-            [a.color_alleles[0], b.color_alleles[1]],
-            [a.color_alleles[1], b.color_alleles[0]],
-            [a.color_alleles[1], b.color_alleles[1]]
-        ]
-        for i in range(0, children_count):
-            child_alelles = outcomes[random.randint(0,3)]
-            # create new child with generated alleles
-            child = Organism(child_alelles, pop.nextId())
-            # add the new child to the population
-            pop.addOrganism(child)
+        trait_alleles_a = None
+        trait_alleles_b = None
+        both_alleles = None
+        child_alelles = []
+        child_traits = []
+
+        # we want to ensure that both parents have compatible traits and alleles for those traits
+        # For loop should take list of relevant alleles for each trait, shuffle them, give output.
+        # If either parent has a trait the other lacks, abort the whole function and move to next pair.
+        for trait in a.traits:
+            if not trait in b.traits:
+                logging.debug(f"Pairing rejected: Org {b.id} doesnt have trait {trait}")
+                return
+
+        for trait in b.traits:
+            if not trait in a.traits:
+                logging.debug(f"Pairing rejected: Org {a.id} doesnt have trait {trait}")
+                return
+
+        for trait in a.traits:
+            trait_alleles_a = list(filter(lambda allele: allele.type == trait.allele_type, a.alleles))
+            trait_alleles_b = list(filter(lambda allele: allele.type == trait.allele_type, b.alleles))
+            both_alleles = trait_alleles_a + trait_alleles_b
+
+            random.shuffle(both_alleles)
+
+            logging.debug(f"both_alleles length: {len(both_alleles)}")
+
+            for allele in both_alleles[0:2]:
+                child_alelles.append(allele)
+
+            child_traits.append(trait)
+
+        child = Organism(child_alelles, child_traits, pop.nextId())
+
+        pop.addOrganism(child)
+
+        logging.debug(f"Org {child.id} created. Redness: {child.redness}, R: {child.r}. Greeness: {child.greenness}, G: {child.g}. Blueness: {child.blueness}, B: {child.b}.")
 
     def incrementAge(self, pop):
         for organism in pop.items.values():
             organism.age += 1
 
-    def Update(self, pop, maxAge, world):
+    def Update(self, pop, world):
         # A new breeding season
         logging.debug(f"Population at start of timestep {world.current_time}: {len(pop.get_all())}")
         self.calcFitness(pop)
@@ -202,7 +203,7 @@ class SystemManager:
         pairs = self.selectPairs(pop)
         for pair in pairs:
             self.breedPair(pair, pop)
-        self.cull(pop, maxAge)
+        self.cull(pop)
         logging.debug(f"Population at end of timestep {world.current_time}: {len(pop.get_all())}")
         world.reset()
         self.time_advance(world)
@@ -212,30 +213,25 @@ def main():
     report = []
     population_report = []
     pop = Population()
-    maxAge = 3
-    r = ColorAllele("red")
-    b = ColorAllele("blue")
-    g = ColorAllele("green")
 
-    pop.addOrganism(Organism([r, r], pop.nextId()))
-    pop.addOrganism(Organism([g, b], pop.nextId()))
-    pop.addOrganism(Organism([g, r], pop.nextId()))
-    pop.addOrganism(Organism([g, r], pop.nextId()))
-    pop.addOrganism(Organism([r, b], pop.nextId()))
-    pop.addOrganism(Organism([g, b], pop.nextId()))
-    pop.addOrganism(Organism([r, b], pop.nextId()))
-    pop.addOrganism(Organism([b, r], pop.nextId()))
-    pop.addOrganism(Organism([g, r], pop.nextId()))
-    pop.addOrganism(Organism([b, b], pop.nextId()))
-    pop.addOrganism(Organism([g, b], pop.nextId()))
-    pop.addOrganism(Organism([r, b], pop.nextId()))
+    Adam = Organism([Coloration_Blue, Coloration_Blue], [traits.Coloration], pop.nextId())
+    Eve = Organism([Coloration_Red, Coloration_Blue], [traits.Coloration], pop.nextId())
+
+    Adam.gender = 1
+    Eve.gender = 0
+
+    pop.addOrganism(Adam)
+    pop.addOrganism(Eve)
+
+
+
     # Define the initial Adam & Eve generation
     manager = SystemManager()
     world = World()
     # Output the CSV column headers
     report.append(f'Time,ID,Age,Red,Green,Blue')
     while world.current_time < 50:
-        manager.Update(pop, maxAge, world)
+        manager.Update(pop, world)
         manager.logPopulation(pop, report, world)
         population_report.append(len(pop.get_all()))
 
