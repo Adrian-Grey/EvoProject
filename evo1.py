@@ -1,9 +1,14 @@
 import logging
 import random
 import traits
+from pynput import keyboard
 from alleles import *
 
 #Investigate sexual vs fitness selection paradigm
+#Implement save functionality
+#Implement real-time output
+
+#for next time: finish working on keyboard advance
 
 logging.basicConfig(filename='debug.txt',level=logging.DEBUG, filemode='w')
 
@@ -234,10 +239,27 @@ def main():
     world = World()
     # Output the CSV column headers
     report.append(f'Time,ID,Age,Red,Green,Blue')
-    while world.current_time < 50:
-        manager.Update(pop, world)
-        manager.logPopulation(pop, report, world)
-        population_report.append(len(pop.get_all()))
+
+    def on_press(key):
+        pass
+
+    def on_release(key):
+        print('{0} released'.format(
+            key))
+        if key == keyboard.Key.enter:
+            # Advance time somehow
+            manager.Update(pop, world)
+            manager.logPopulation(pop, report, world)
+            population_report.append(len(pop.get_all()))
+        if key == keyboard.Key.esc:
+            # Stop listener
+            return False
+
+    # Collect keyboard events until released
+    with keyboard.Listener(
+            on_press=on_press,
+            on_release=on_release) as listener:
+        listener.join()
 
     output = open("output.csv", "wt")
     for item in report:
