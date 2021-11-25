@@ -1,9 +1,12 @@
 import logging
 import random
+import asyncio
+import websockets
 import traits
 from alleles import *
 
-#Investigate sexual vs fitness selection paradigm
+#move keylistener to UI
+#implement websocket for communication between backend and ui
 
 logging.basicConfig(filename='debug.txt',level=logging.DEBUG, filemode='w')
 
@@ -213,10 +216,22 @@ class SystemManager:
         self.time_advance(world)
 
 
-def main():
+report = []
+population_report = []
+pop = None
+manager = None
+world = None
+
+async def main():
+    global report
+    global pop
+    global population_report
+    global manager
+    global world
+
     report = []
-    population_report = []
     pop = Population()
+    population_report = []
 
     Adam = Organism([Coloration_Blue, Coloration_Blue], [traits.Coloration], pop.nextId())
     Eve = Organism([Coloration_Red, Coloration_Blue], [traits.Coloration], pop.nextId())
@@ -227,28 +242,41 @@ def main():
     pop.addOrganism(Adam)
     pop.addOrganism(Eve)
 
-
-
     # Define the initial Adam & Eve generation
     manager = SystemManager()
     world = World()
     # Output the CSV column headers
     report.append(f'Time,ID,Age,Red,Green,Blue')
-    while world.current_time < 50:
+
+    def runSim():
         manager.Update(pop, world)
         manager.logPopulation(pop, report, world)
         population_report.append(len(pop.get_all()))
+        output = open("output.csv", "wt")
+        for item in report:
+            output.write(f"{item}\n")
+        output.close()
 
-    output = open("output.csv", "wt")
-    for item in report:
-        output.write(f"{item}\n")
-    output.close()
+        output = open("population.csv", "wt")
+        for item in population_report:
+            output.write(f"{item}\n")
+        output.close()
+        return population_report
 
-    output = open("population.csv", "wt")
-    for item in population_report:
-        output.write(f"{item}\n")
-    # write out the report list to a file
+    async with websockets.serve(handleRequest, "localhost", 8765):
+        await asyncio.Future()  # run forever
+
+
+async def handleRequest(websocket, path):
+    async for message in websocket:
+        if message == "getPop":
+            print("Population count request recieved")
+            await websocket.send(f"{len(pop.get_all())}")
+            print("Population count sent")
+        else:
+            await websocket.send("Unknown Command")
+            print(f"{message}")
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
