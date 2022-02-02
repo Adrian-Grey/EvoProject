@@ -5,10 +5,11 @@ import websockets
 import traits
 from alleles import *
 
-#move keylistener to UI
-#implement websocket for communication between backend and ui
+# using pandas and plotly to visualize population data
 
-logging.basicConfig(filename='debug.txt',level=logging.DEBUG, filemode='w')
+# add reset method to UI to reset pop simulation, avoiding need to close and re-run evoBackend
+
+logging.basicConfig(filename='debug1.txt',level=logging.DEBUG, filemode='w')
 
 def shift_list(list):
     item = None
@@ -118,9 +119,11 @@ class SystemManager:
 
 
     def selectPairs(self, pop):
+        logging.debug("selectPairs called")
         males = []
         females = []
         for organism in pop.items.values():
+            logging.debug(f"selectPairs: organism could breed? {organism.could_breed()}")
             if organism.could_breed():
                 if organism.gender == 0:
                     females.append(organism)
@@ -128,6 +131,7 @@ class SystemManager:
                     males.append(organism)
                 else:
                     logging.debug(f'UNEXPECTED GENDER VALUE: {organism.gender}')
+        logging.debug(f"{len(males)} males, {len(females)} females")
         pairs = []
         if len(males) >= 1:
             def organism_to_string(org):
@@ -154,6 +158,7 @@ class SystemManager:
         return pairs
 
     def breedPair(self, pair, pop):
+        logging.debug("breedPair called")
         a = pair[0]
         b = pair[1]
         children_count = 2
@@ -201,6 +206,7 @@ class SystemManager:
             organism.age += 1
 
     def Update(self, pop, world):
+        print("manager.Update called")
         # A new breeding season
         logging.debug(f"Population at start of timestep {world.current_time}: {len(pop.get_all())}")
         self.calcFitness(pop)
@@ -218,37 +224,13 @@ class SystemManager:
 
 report = []
 population_report = []
-pop = None
-manager = None
-world = None
+pop = Population()
+manager = SystemManager()
+world = World()
 
-async def main():
-    global report
-    global pop
-    global population_report
-    global manager
-    global world
-
-    report = []
-    pop = Population()
-    population_report = []
-
-    Adam = Organism([Coloration_Blue, Coloration_Blue], [traits.Coloration], pop.nextId())
-    Eve = Organism([Coloration_Red, Coloration_Blue], [traits.Coloration], pop.nextId())
-
-    Adam.gender = 1
-    Eve.gender = 0
-
-    pop.addOrganism(Adam)
-    pop.addOrganism(Eve)
-
-    # Define the initial Adam & Eve generation
-    manager = SystemManager()
-    world = World()
-    # Output the CSV column headers
-    report.append(f'Time,ID,Age,Red,Green,Blue')
-
-    def runSim():
+def runSim(count):
+    while count > 0:
+        logging.debug(f"runSim, calling manager.Update")
         manager.Update(pop, world)
         manager.logPopulation(pop, report, world)
         population_report.append(len(pop.get_all()))
@@ -261,18 +243,45 @@ async def main():
         for item in population_report:
             output.write(f"{item}\n")
         output.close()
-        return population_report
+        count -= 1
+    return population_report
 
+async def main():
+
+    # Define the initial Adam & Eve generation
+    Adam = Organism([Coloration_Blue, Coloration_Blue], [traits.Coloration], pop.nextId())
+    Eve = Organism([Coloration_Red, Coloration_Blue], [traits.Coloration], pop.nextId())
+
+    Adam.gender = 1
+    Eve.gender = 0
+
+    pop.addOrganism(Adam)
+    pop.addOrganism(Eve)
+
+    # Output the CSV column headers
+    report.append(f'Time,ID,Age,Red,Green,Blue')
+
+    # Start the websocket server and run forever waiting for requests
     async with websockets.serve(handleRequest, "localhost", 8765):
         await asyncio.Future()  # run forever
 
-
 async def handleRequest(websocket, path):
+    # right now, message is a string.
+    # but we could have a command, with a structure like:
+    # { name: "runSim", count: n-times }
+    # commandname,param
     async for message in websocket:
-        if message == "getPop":
+        parts = message.split(",")
+        command_name = parts[0]
+        logging.debug(f"Got websocket request")
+        if command_name == "getPop":
             print("Population count request recieved")
             await websocket.send(f"{len(pop.get_all())}")
             print("Population count sent")
+        elif command_name == "runSim":
+            print(f"Incrementing simulation by t={parts[1]}")
+            runSim(int(parts[1]))
+            await websocket.send("ok")
         else:
             await websocket.send("Unknown Command")
             print(f"{message}")
