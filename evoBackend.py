@@ -37,6 +37,7 @@ class Population:
     def __init__(self):
         self.items = {}
         self.current_id = 0
+        self.info = {}
     def find_by_id(self, id):
         return self.items[id]
     def filter_mature(self, minAge):
@@ -98,8 +99,18 @@ class SystemManager:
                 del pop.items[org.id]
 
     def logPopulation(self, pop, report, world):
+        total_red = 0
+        total_green = 0
+        total_blue = 0
         for organism in pop.items.values():
             report.append(f'{world.current_time},{organism.id},{organism.age},{organism.r},{organism.g},{organism.b}')
+            total_red += organism.r
+            total_green += organism.g
+            total_blue += organism.b
+        pop_count = len(pop.get_all())
+        pop.info["average_red"] = total_red/pop_count
+        pop.info["average_green"] = total_green/pop_count
+        pop.info["average_blue"] = total_blue/pop_count
 
     def calcBreedScore(self, pop):
         for organism in pop.items.values():
@@ -223,7 +234,7 @@ class SystemManager:
 
 
 report = []
-population_report = []
+population_report = ["time,population,average_red,average_green,average_blue"]
 pop = Population()
 manager = SystemManager()
 world = World()
@@ -233,7 +244,8 @@ def runSim(count):
         logging.debug(f"runSim, calling manager.Update")
         manager.Update(pop, world)
         manager.logPopulation(pop, report, world)
-        population_report.append(len(pop.get_all()))
+        pop_count = len(pop.get_all())
+        population_report.append(f"{world.current_time},{pop_count}, {pop.info['average_red']},{pop.info['average_green']},{pop.info['average_blue']}")
         output = open("output.csv", "wt")
         for item in report:
             output.write(f"{item}\n")
@@ -249,7 +261,7 @@ def runSim(count):
 async def main():
 
     # Define the initial Adam & Eve generation
-    Adam = Organism([Coloration_Blue, Coloration_Blue], [traits.Coloration], pop.nextId())
+    Adam = Organism([Coloration_Green, Coloration_Blue], [traits.Coloration], pop.nextId())
     Eve = Organism([Coloration_Red, Coloration_Blue], [traits.Coloration], pop.nextId())
 
     Adam.gender = 1
