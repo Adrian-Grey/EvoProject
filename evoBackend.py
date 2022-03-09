@@ -20,10 +20,9 @@ def shift_list(list):
 
 class World:
     def __init__(self):
-        self.current_time = 0
-        self.resources = 500
         self.resource_increment = 50
         self.resource_cap = 500
+        self.reset()
     def get_resources(self):
         return self.resources
     def increment(self):
@@ -32,12 +31,13 @@ class World:
         if self.resources > self.resource_cap:
             self.resources = self.resource_cap
             logging.debug(f'Resource count set to cap: {self.resource_cap}')
+    def reset(self):
+        self.current_time = 0
+        self.resources = 500
 
 class Population:
     def __init__(self):
-        self.items = {}
-        self.current_id = 0
-        self.info = {}
+        self.reset()
     def find_by_id(self, id):
         return self.items[id]
     def filter_mature(self, minAge):
@@ -54,6 +54,11 @@ class Population:
         return self.current_id
     def get_all(self):
         return list(self.items.values())
+    def reset(self):
+        self.items = {}
+        self.current_id = 0
+        self.info = {}
+
 
 class Organism:
     def __init__(self, alleles, traits, id):
@@ -115,16 +120,16 @@ class SystemManager:
     def calcBreedScore(self, pop):
         for organism in pop.items.values():
             organism.breed_score = 100
-            organism.breed_score += organism.redness * -1 * 50
-            organism.breed_score += organism.blueness * 1 * 50
+            organism.breed_score += organism.redness * -0.5 * 50
+            organism.breed_score += organism.blueness * 0.5 * 50
             organism.breed_score += organism.greenness * 0 * 50
             #logging.debug(f'Organism {organism.id} breed_score: : {organism.breed_score}\n redness: {redness}, greenness: {greenness}, blueness: {blueness}')
 
     def calcFitness(self, pop):
         for organism in pop.items.values():
             organism.fitness = 100
-            organism.fitness += organism.redness * 1 * 50
-            organism.fitness += organism.blueness * -1 * 50
+            organism.fitness += organism.redness * 0.5 * 50
+            organism.fitness += organism.blueness * -0.5 * 50
             organism.fitness += organism.greenness * 0 * 50
             #logging.debug(f'Organism {organism.id} fitness: : {organism.fitness}\n redness: {organism.redness}, greenness: {organism.greenness}, blueness: {organism.blueness}')
 
@@ -217,7 +222,7 @@ class SystemManager:
             organism.age += 1
 
     def Update(self, pop, world):
-        print("manager.Update called")
+        # print("manager.Update called")
         # A new breeding season
         logging.debug(f"Population at start of timestep {world.current_time}: {len(pop.get_all())}")
         self.calcFitness(pop)
@@ -258,8 +263,10 @@ def runSim(count):
         count -= 1
     return population_report
 
-async def main():
+def resetSim():
+    initialize()
 
+def initialize():
     # Define the initial Adam & Eve generation
     Adam = Organism([Coloration_Green, Coloration_Blue], [traits.Coloration], pop.nextId())
     Eve = Organism([Coloration_Red, Coloration_Blue], [traits.Coloration], pop.nextId())
@@ -267,33 +274,46 @@ async def main():
     Adam.gender = 1
     Eve.gender = 0
 
+    pop.reset()
+    world.reset()
+
+    report.clear()
+    population_report.clear()
+    population_report.append("time,population,average_red,average_green,average_blue")
+    report.append(f'Time,ID,Age,Red,Green,Blue')
+
     pop.addOrganism(Adam)
     pop.addOrganism(Eve)
 
-    # Output the CSV column headers
-    report.append(f'Time,ID,Age,Red,Green,Blue')
+
+
+async def main():
+
+    initialize()
 
     # Start the websocket server and run forever waiting for requests
     async with websockets.serve(handleRequest, "localhost", 8765):
         await asyncio.Future()  # run forever
 
 async def handleRequest(websocket, path):
-    # right now, message is a string.
-    # but we could have a command, with a structure like:
-    # { name: "runSim", count: n-times }
-    # commandname,param
+    #reset command is causing an error, probably getting stuck somewhere in resetSim()
     async for message in websocket:
         parts = message.split(",")
         command_name = parts[0]
         logging.debug(f"Got websocket request")
         if command_name == "getPop":
             print("Population count request recieved")
-            await websocket.send(f"{len(pop.get_all())}")
+            await websocket.send(f"Population count: {len(pop.get_all())}")
             print("Population count sent")
         elif command_name == "runSim":
             print(f"Incrementing simulation by t={parts[1]}")
             runSim(int(parts[1]))
-            await websocket.send("ok")
+            await websocket.send(f"Simulation incremented by t={parts[1]}")
+        elif command_name == "reset":
+            print("Reset command recieved")
+            resetSim()
+            print("Simulation reset")
+            await websocket.send("Simulation reset")
         else:
             await websocket.send("Unknown Command")
             print(f"{message}")
