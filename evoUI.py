@@ -12,9 +12,14 @@ async def sim_command(command):
         print(f"{await websocket.recv()}")
 
 async def main():
-    print("Enter command:")
-    command = input()
-    await sim_command(command)
+    running = True
+    while running:
+        print("Enter command:")
+        command = input()
+        if command == "quit":
+            running = False
+        else:
+            await sim_command(command)
 
 if __name__ == "__main__":
     asyncio.run(main())

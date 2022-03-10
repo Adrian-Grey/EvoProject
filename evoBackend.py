@@ -2,12 +2,20 @@ import logging
 import random
 import asyncio
 import websockets
+import pandas as pd
+import numpy as np
+import plotly.express as px
 import traits
 from alleles import *
 
-# using pandas and plotly to visualize population data
+pd.options.plotting.backend = "plotly"
 
-# add reset method to UI to reset pop simulation, avoiding need to close and re-run evoBackend
+#Fix population crash issue
+
+#Work on save function, produce population/world snapshots
+
+#Improve data visualization methods
+
 
 logging.basicConfig(filename='debug1.txt',level=logging.DEBUG, filemode='w')
 
@@ -113,9 +121,15 @@ class SystemManager:
             total_green += organism.g
             total_blue += organism.b
         pop_count = len(pop.get_all())
-        pop.info["average_red"] = total_red/pop_count
-        pop.info["average_green"] = total_green/pop_count
-        pop.info["average_blue"] = total_blue/pop_count
+
+        pop.info["average_red"] = 0
+        pop.info["average_green"] = 0
+        pop.info["average_blue"] = 0
+
+        if pop_count > 0:
+            pop.info["average_red"] = total_red/pop_count
+            pop.info["average_green"] = total_green/pop_count
+            pop.info["average_blue"] = total_blue/pop_count
 
     def calcBreedScore(self, pop):
         for organism in pop.items.values():
@@ -173,6 +187,15 @@ class SystemManager:
 
         return pairs
 
+    def mutate(self, organism):
+        mutation_target = organism.alleles[random.randint(0, len(organism.alleles)-1)]
+        organism.alleles.remove(mutation_target)
+        possible_alleles = list(filter(lambda allele: allele.type == mutation_target.type, all_alleles))
+        possible_alleles.remove(mutation_target)
+        mutant_allele = possible_alleles[random.randint(0, len(possible_alleles)-1)]
+        organism.alleles.append(mutant_allele)
+        logging.debug(f"Organism {organism.id} mutated. {mutation_target.name} -> {mutant_allele.name}.")
+
     def breedPair(self, pair, pop):
         logging.debug("breedPair called")
         a = pair[0]
@@ -212,6 +235,9 @@ class SystemManager:
             child_traits.append(trait)
 
         child = Organism(child_alelles, child_traits, pop.nextId())
+
+        if random.randint(0,100) == 100:
+            self.mutate(child)
 
         pop.addOrganism(child)
 
@@ -267,12 +293,20 @@ def resetSim():
     initialize()
 
 def initialize():
-    # Define the initial Adam & Eve generation
-    Adam = Organism([Coloration_Green, Coloration_Blue], [traits.Coloration], pop.nextId())
-    Eve = Organism([Coloration_Red, Coloration_Blue], [traits.Coloration], pop.nextId())
 
-    Adam.gender = 1
-    Eve.gender = 0
+    FirstOrg = Organism([Coloration_Green, Coloration_Blue], [traits.Coloration], pop.nextId())
+    SecondOrg = Organism([Coloration_Red, Coloration_Blue], [traits.Coloration], pop.nextId())
+    ThirdOrg = Organism([Coloration_Blue, Coloration_Blue], [traits.Coloration], pop.nextId())
+    FourthOrg = Organism([Coloration_Red, Coloration_Red], [traits.Coloration], pop.nextId())
+    FifthOrg = Organism([Coloration_Green, Coloration_Blue], [traits.Coloration], pop.nextId())
+    SixthOrg = Organism([Coloration_Red, Coloration_Green], [traits.Coloration], pop.nextId())
+    SeventhOrg = Organism([Coloration_Green, Coloration_Green], [traits.Coloration], pop.nextId())
+
+    initial_generation = [FirstOrg, SecondOrg, ThirdOrg, FourthOrg, FifthOrg, SixthOrg, SeventhOrg]
+
+
+    FirstOrg.gender = 1
+    SecondOrg.gender = 0
 
     pop.reset()
     world.reset()
@@ -282,10 +316,18 @@ def initialize():
     population_report.append("time,population,average_red,average_green,average_blue")
     report.append(f'Time,ID,Age,Red,Green,Blue')
 
-    pop.addOrganism(Adam)
-    pop.addOrganism(Eve)
+    for org in initial_generation:
+        pop.addOrganism(org)
 
+def showColors():
+    color_frame = pd.read_csv('population.csv', usecols = ['time', 'average_red', 'average_green', 'average_blue'])
 
+    color_frame.plot(x='time', y=['average_blue','average_red','average_green']).show()
+
+def showPop():
+    pop_frame = pd.read_csv('population.csv', usecols = ['time', 'population'])
+
+    pop_frame.plot(x='time', y=['population']).show()
 
 async def main():
 
@@ -314,6 +356,16 @@ async def handleRequest(websocket, path):
             resetSim()
             print("Simulation reset")
             await websocket.send("Simulation reset")
+        elif command_name == "showColors":
+            showColors()
+            await websocket.send("Ok")
+        elif command_name == "showPop":
+            showPop()
+            await websocket.send("Ok")
+        elif command_name == "showAll":
+            showPop()
+            showColors()
+            await websocket.send("Ok")
         else:
             await websocket.send("Unknown Command")
             print(f"{message}")
