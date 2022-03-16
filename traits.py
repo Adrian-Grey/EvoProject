@@ -8,7 +8,7 @@ class Trait(dict):
         # TODO: unattach by resetting any organism properties we set
         pass
 
-class _ColorationTrait(Trait):
+class _ColorationOne(Trait):
     allele_type = "coloration"
     def attach(self, organism):
         organism.has_color = True
@@ -20,11 +20,11 @@ class _ColorationTrait(Trait):
         organism.b = 0
         for allele in color_alleles:
             if allele == Coloration_Red:
-                organism.r += 255/2
+                organism.r += 255/6
             elif allele == Coloration_Green:
-                organism.g += 255/2
+                organism.g += 255/6
             elif allele == Coloration_Blue:
-                organism.b += 255/2
+                organism.b += 255/6
             else:
                  logging.debug("UNEXPECTED ALLELE IN COLOR CALC")
 
@@ -39,5 +39,5 @@ class _Efficiency(Trait):
       else:
         organism.efficiency = 0.1
 
-Coloration = _ColorationTrait()
+ColorationOne = _ColorationOne()
 Efficiency = _Efficiency()

@@ -16,6 +16,9 @@ pd.options.plotting.backend = "plotly"
 
 #Improve data visualization methods
 
+#Improve color genetics complexity
+
+#Balancing
 
 logging.basicConfig(filename='debug1.txt',level=logging.DEBUG, filemode='w')
 
@@ -132,19 +135,64 @@ class SystemManager:
             pop.info["average_blue"] = total_blue/pop_count
 
     def calcBreedScore(self, pop):
+        logging.debug("calcBreedScore called")
         for organism in pop.items.values():
             organism.breed_score = 100
             organism.breed_score += organism.redness * -0.5 * 50
+            if organism.redness == 255:
+                organism.breed_score = 0
+                logging.debug("Pure red punished (breedScore)")
+            else:
+                pass
             organism.breed_score += organism.blueness * 0.5 * 50
+            if organism.blueness == 255:
+                organism.breed_score = 0
+                logging.debug("Pure blue punished (breedScore)")
+            else:
+                pass
             organism.breed_score += organism.greenness * 0 * 50
+            if organism.greenness == 255:
+                organism.breed_score = 0
+                logging.debug("Pure green punished (breedScore)")
+            else:
+                pass
+            random_num = random.randint(0,10)
+            if random_num > 7:
+                organism.breed_score += random.randint(0,25)
+            elif random_num < 3:
+                organism.breed_score -= random.randint(0,25)
+            else:
+                pass
             #logging.debug(f'Organism {organism.id} breed_score: : {organism.breed_score}\n redness: {redness}, greenness: {greenness}, blueness: {blueness}')
 
     def calcFitness(self, pop):
         for organism in pop.items.values():
             organism.fitness = 100
             organism.fitness += organism.redness * 0.5 * 50
+            if organism.redness == 255:
+                organism.fitness = 0
+                logging.debug("Pure red punished (fitness)")
+            else:
+                pass
             organism.fitness += organism.blueness * -0.5 * 50
+            if organism.blueness == 255:
+                organism.fitness = 0
+                logging.debug("Pure blue punished (fitness)")
+            else:
+                pass
             organism.fitness += organism.greenness * 0 * 50
+            if organism.greenness == 255:
+                organism.fitness = 0
+                logging.debug("Pure green punished (fitness)")
+            else:
+                pass
+            random_num = random.randint(0,10)
+            if random_num > 7:
+                organism.fitness += random.randint(0,25)
+            elif random_num < 3:
+                organism.fitness -= random.randint(0,25)
+            else:
+                pass
             #logging.debug(f'Organism {organism.id} fitness: : {organism.fitness}\n redness: {organism.redness}, greenness: {organism.greenness}, blueness: {organism.blueness}')
 
 
@@ -188,12 +236,14 @@ class SystemManager:
         return pairs
 
     def mutate(self, organism):
+        global mutation_count
         mutation_target = organism.alleles[random.randint(0, len(organism.alleles)-1)]
         organism.alleles.remove(mutation_target)
         possible_alleles = list(filter(lambda allele: allele.type == mutation_target.type, all_alleles))
         possible_alleles.remove(mutation_target)
         mutant_allele = possible_alleles[random.randint(0, len(possible_alleles)-1)]
         organism.alleles.append(mutant_allele)
+        mutation_count += 1
         logging.debug(f"Organism {organism.id} mutated. {mutation_target.name} -> {mutant_allele.name}.")
 
     def breedPair(self, pair, pop):
@@ -269,6 +319,7 @@ population_report = ["time,population,average_red,average_green,average_blue"]
 pop = Population()
 manager = SystemManager()
 world = World()
+mutation_count = 0
 
 def runSim(count):
     while count > 0:
@@ -294,19 +345,18 @@ def resetSim():
 
 def initialize():
 
-    FirstOrg = Organism([Coloration_Green, Coloration_Blue], [traits.Coloration], pop.nextId())
-    SecondOrg = Organism([Coloration_Red, Coloration_Blue], [traits.Coloration], pop.nextId())
-    ThirdOrg = Organism([Coloration_Blue, Coloration_Blue], [traits.Coloration], pop.nextId())
-    FourthOrg = Organism([Coloration_Red, Coloration_Red], [traits.Coloration], pop.nextId())
-    FifthOrg = Organism([Coloration_Green, Coloration_Blue], [traits.Coloration], pop.nextId())
-    SixthOrg = Organism([Coloration_Red, Coloration_Green], [traits.Coloration], pop.nextId())
+    FirstOrg = Organism([Coloration_Green, Coloration_Blue], [traits.ColorationOne], pop.nextId())
+    SecondOrg = Organism([Coloration_Red, Coloration_Blue], [trait.ColorationOne], pop.nextId())
+    ThirdOrg = Organism([Coloration_Blue, Coloration_Blue], [trait.ColorationOne], pop.nextId())
+    FourthOrg = Organism([Coloration_Red, Coloration_Red], [trait.ColorationOne], pop.nextId())
+    FifthOrg = Organism([Coloration_Green, Coloration_Blue], [trait.ColorationOne], pop.nextId())
+    SixthOrg = Organism([Coloration_Red, Coloration_Green], [trait.ColorationOne], pop.nextId())
     SeventhOrg = Organism([Coloration_Green, Coloration_Green], [traits.Coloration], pop.nextId())
-
-    initial_generation = [FirstOrg, SecondOrg, ThirdOrg, FourthOrg, FifthOrg, SixthOrg, SeventhOrg]
-
 
     FirstOrg.gender = 1
     SecondOrg.gender = 0
+
+    initial_generation = [FirstOrg, SecondOrg, ThirdOrg, FourthOrg, FifthOrg, SixthOrg, SeventhOrg]
 
     pop.reset()
     world.reset()
@@ -365,7 +415,7 @@ async def handleRequest(websocket, path):
         elif command_name == "showAll":
             showPop()
             showColors()
-            await websocket.send("Ok")
+            await websocket.send(f"Final population: {len(pop.get_all())}. Final time: {world.current_time}. Number of mutations: {mutation_count}.")
         else:
             await websocket.send("Unknown Command")
             print(f"{message}")
