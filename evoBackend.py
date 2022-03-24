@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import traits
-from alleles import *
+from genes import *
 
 pd.options.plotting.backend = "plotly"
 
@@ -15,9 +15,6 @@ pd.options.plotting.backend = "plotly"
 #Work on save function, produce population/world snapshots
 
 #Improve data visualization methods
-
-
-logging.basicConfig(filename='debug1.txt',level=logging.DEBUG, filemode='w')
 
 def shift_list(list):
     item = None
@@ -69,9 +66,9 @@ class Population:
 
 
 class Organism:
-    def __init__(self, alleles, traits, id):
+    def __init__(self, genes, traits, id):
         self.id = id
-        self.alleles = alleles
+        self.genes = genes
         self.traits = traits
         self.age = 0
         self.has_fed = True
@@ -188,27 +185,24 @@ class SystemManager:
         return pairs
 
     def mutate(self, organism):
-        mutation_target = organism.alleles[random.randint(0, len(organism.alleles)-1)]
-        organism.alleles.remove(mutation_target)
-        possible_alleles = list(filter(lambda allele: allele.type == mutation_target.type, all_alleles))
-        possible_alleles.remove(mutation_target)
-        mutant_allele = possible_alleles[random.randint(0, len(possible_alleles)-1)]
-        organism.alleles.append(mutant_allele)
-        logging.debug(f"Organism {organism.id} mutated. {mutation_target.name} -> {mutant_allele.name}.")
+        mutation_target = organism.genes[random.randint(0, len(organism.genes)-1)]
+        old_allele = mutation_target.allele
+        mutation_target.allele = mutation_target.valid_alleles[random.randint(0, len(mutation_target.valid_alleles)-1)]
+        logging.debug(f"Organism {organism.id} mutated. {old_allele} -> {mutation_target.allele}.")
 
     def breedPair(self, pair, pop):
         logging.debug("breedPair called")
         a = pair[0]
         b = pair[1]
         children_count = 2
-        trait_alleles_a = None
-        trait_alleles_b = None
-        both_alleles = None
-        child_alelles = []
+        genes_a = None
+        genes_b = None
+        both_genes = None
+        child_genes = []
         child_traits = []
 
-        # we want to ensure that both parents have compatible traits and alleles for those traits
-        # For loop should take list of relevant alleles for each trait, shuffle them, give output.
+        # we want to ensure that both parents have compatible traits
+        # For loop should take list of relevant genes for each trait, shuffle them, give output.
         # If either parent has a trait the other lacks, abort the whole function and move to next pair.
         for trait in a.traits:
             if not trait in b.traits:
@@ -221,20 +215,18 @@ class SystemManager:
                 return
 
         for trait in a.traits:
-            trait_alleles_a = list(filter(lambda allele: allele.type == trait.allele_type, a.alleles))
-            trait_alleles_b = list(filter(lambda allele: allele.type == trait.allele_type, b.alleles))
-            both_alleles = trait_alleles_a + trait_alleles_b
+            genes_a = list(filter(lambda gene: gene.type == trait.gene_type, a.genes))
+            genes_b = list(filter(lambda gene: gene.type == trait.gene_type, b.genes))
+            both_genes = genes_a + genes_b
 
-            random.shuffle(both_alleles)
+            random.shuffle(both_genes)
 
-            #logging.debug(f"both_alleles length: {len(both_alleles)}")
-
-            for allele in both_alleles[0:2]:
-                child_alelles.append(allele)
+            for gene in both_genes[0:2]:
+                child_genes.append(gene)
 
             child_traits.append(trait)
 
-        child = Organism(child_alelles, child_traits, pop.nextId())
+        child = Organism(child_genes, child_traits, pop.nextId())
 
         if random.randint(0,100) == 100:
             self.mutate(child)
@@ -294,19 +286,28 @@ def resetSim():
 
 def initialize():
 
-    FirstOrg = Organism([Coloration_Green, Coloration_Blue], [traits.Coloration], pop.nextId())
-    SecondOrg = Organism([Coloration_Red, Coloration_Blue], [traits.Coloration], pop.nextId())
-    ThirdOrg = Organism([Coloration_Blue, Coloration_Blue], [traits.Coloration], pop.nextId())
-    FourthOrg = Organism([Coloration_Red, Coloration_Red], [traits.Coloration], pop.nextId())
-    FifthOrg = Organism([Coloration_Green, Coloration_Blue], [traits.Coloration], pop.nextId())
-    SixthOrg = Organism([Coloration_Red, Coloration_Green], [traits.Coloration], pop.nextId())
-    SeventhOrg = Organism([Coloration_Green, Coloration_Green], [traits.Coloration], pop.nextId())
+    FirstOrg = Organism([Coloration_One, Coloration_One, Coloration_Two, Coloration_Two], [traits.Coloration], pop.nextId())
+    SecondOrg = Organism([Coloration_One, Coloration_One, Coloration_Two, Coloration_Two], [traits.Coloration], pop.nextId())
+    FirstOrg.gender = 1
+    SecondOrg.gender = 0
+    ThirdOrg = Organism([Coloration_One, Coloration_One, Coloration_Two, Coloration_Two], [traits.Coloration], pop.nextId())
+    FourthOrg = Organism([Coloration_One, Coloration_One, Coloration_Two, Coloration_Two], [traits.Coloration], pop.nextId())
+    FifthOrg = Organism([Coloration_One, Coloration_One, Coloration_Two, Coloration_Two], [traits.Coloration], pop.nextId())
+    SixthOrg = Organism([Coloration_One, Coloration_One, Coloration_Two, Coloration_Two], [traits.Coloration], pop.nextId())
+    SeventhOrg = Organism([Coloration_One, Coloration_One, Coloration_Two, Coloration_Two], [traits.Coloration], pop.nextId())
 
     initial_generation = [FirstOrg, SecondOrg, ThirdOrg, FourthOrg, FifthOrg, SixthOrg, SeventhOrg]
 
+    for organism in initial_generation:
+        for gene in organism.genes:
+            if gene.allele == None:
+                gene.assign(gene.valid_alleles[random.randint(0,len(gene.valid_alleles)-1)])
+            else:
+                pass
 
-    FirstOrg.gender = 1
-    SecondOrg.gender = 0
+    for organism in initial_generation:
+        for trait in organism.traits:
+            trait.update(organism)
 
     pop.reset()
     world.reset()
@@ -372,4 +373,5 @@ async def handleRequest(websocket, path):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(filename='debug1.txt',level=logging.DEBUG, filemode='w')
     asyncio.run(main())

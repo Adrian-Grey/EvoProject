@@ -1,4 +1,4 @@
-from alleles import *
+from genes import *
 
 class Trait(dict):
     allele_ids = []
@@ -9,24 +9,24 @@ class Trait(dict):
         pass
 
 class _ColorationTrait(Trait):
-    allele_type = "coloration"
+    gene_type = "coloration"
     def attach(self, organism):
         organism.has_color = True
         super().attach(organism)
     def update(self, organism):
-        color_alleles = list(filter(lambda allele: allele.type == self.allele_type, organism.alleles))
+        color_genes = list(filter(lambda gene: gene.type == self.gene_type, organism.genes))
         organism.r = 0
         organism.g = 0
         organism.b = 0
-        for allele in color_alleles:
-            if allele == Coloration_Red:
-                organism.r += 255/2
-            elif allele == Coloration_Green:
-                organism.g += 255/2
-            elif allele == Coloration_Blue:
-                organism.b += 255/2
+        for gene in color_genes:
+            if gene.allele == "r":
+                organism.r += 255/len(color_genes)
+            elif gene.allele == "g":
+                organism.g += 255/len(color_genes)
+            elif gene.allele == "b":
+                organism.b += 255/len(color_genes)
             else:
-                 logging.debug("UNEXPECTED ALLELE IN COLOR CALC")
+                 logging.debug(f"UNEXPECTED ALLELE IN COLOR CALC: {gene.allele}")
 
         organism.greenness = max(0, organism.g - ((organism.r + organism.b)/2))
         organism.redness = max(0, organism.r - ((organism.b + organism.g)/2))
