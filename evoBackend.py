@@ -131,16 +131,16 @@ class SystemManager:
     def calcBreedScore(self, pop):
         for organism in pop.items.values():
             organism.breed_score = 100
-            organism.breed_score += organism.redness * -0.5 * 50
-            organism.breed_score += organism.blueness * 0.5 * 50
+            organism.breed_score += organism.redness * -0.25 * 50
+            organism.breed_score += organism.blueness * 0.25 * 50
             organism.breed_score += organism.greenness * 0 * 50
             #logging.debug(f'Organism {organism.id} breed_score: : {organism.breed_score}\n redness: {redness}, greenness: {greenness}, blueness: {blueness}')
 
     def calcFitness(self, pop):
         for organism in pop.items.values():
             organism.fitness = 100
-            organism.fitness += organism.redness * 0.5 * 50
-            organism.fitness += organism.blueness * -0.5 * 50
+            organism.fitness += organism.redness * 0.25 * 50
+            organism.fitness += organism.blueness * -0.25 * 50
             organism.fitness += organism.greenness * 0 * 50
             #logging.debug(f'Organism {organism.id} fitness: : {organism.fitness}\n redness: {organism.redness}, greenness: {organism.greenness}, blueness: {organism.blueness}')
 
@@ -230,6 +230,11 @@ class SystemManager:
 
         if random.randint(0,99) == 99:
             self.mutate(child)
+            for trait in child.traits:
+                trait.update(child)
+
+        else:
+            pass
 
         pop.addOrganism(child)
 
