@@ -194,7 +194,7 @@ class SystemManager:
         logging.debug("breedPair called")
         a = pair[0]
         b = pair[1]
-        children_count = 2
+        #children_count = 2
         genes_a = None
         genes_b = None
         both_genes = None
@@ -221,14 +221,14 @@ class SystemManager:
 
             random.shuffle(both_genes)
 
-            for gene in both_genes[0:2]:
+            for gene in both_genes[0:int(len(both_genes)/2)]:
                 child_genes.append(gene)
 
             child_traits.append(trait)
 
         child = Organism(child_genes, child_traits, pop.nextId())
 
-        if random.randint(0,100) == 100:
+        if random.randint(0,99) == 99:
             self.mutate(child)
 
         pop.addOrganism(child)
@@ -329,6 +329,9 @@ def showPop():
     pop_frame = pd.read_csv('population.csv', usecols = ['time', 'population'])
 
     pop_frame.plot(x='time', y=['population']).show()
+
+def showZoomed():
+    zoomed_frame = pd.read_csv('population.csv', usecols = ['population', ''])
 
 async def main():
 
