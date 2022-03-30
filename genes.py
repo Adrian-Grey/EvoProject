@@ -12,6 +12,8 @@ class Gene:
             self.allele = allele
         else:
             logger.debug(f"Tried to assign invalid allele to {self.name} gene.")
+    def __str__(self):
+        return f'<name: {self.name}, allele: {self.allele}>'
 
 Coloration_One = Gene("coloration", "Coloration_One", ["r", "b", "g"])
 Coloration_Two = Gene("coloration", "Coloration_Two", ["r", "b", "g"])

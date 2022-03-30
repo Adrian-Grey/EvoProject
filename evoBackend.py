@@ -78,6 +78,10 @@ class Organism:
         for trait in traits:
             trait.attach(self)
 
+    def __str__(self):
+        gene_strings = list(map(lambda gene: str(gene), self.genes))
+        return f'<id: {self.id}, age: {self.age}, gender: {self.gender}, genes: {", ".join(gene_strings)}>'
+
     def __getattr__(self, name):
         # return something when requesting an attribute that doesnt exist on this instance
         return None
@@ -105,7 +109,7 @@ class SystemManager:
     def cull(self, pop):
         for org in pop.get_all():
             if org.age >= org.max_age or org.has_fed == False:
-                logging.debug(f'Culling Organism: {org.id}. Fed: {org.has_fed}. Age: {org.age}')
+                logging.debug(f'Culling Organism: {org}')
                 del pop.items[org.id]
 
     def logPopulation(self, pop, report, world):
@@ -194,6 +198,8 @@ class SystemManager:
         logging.debug("breedPair called")
         a = pair[0]
         b = pair[1]
+        logging.debug(f'breedPair, parent a: {a}')
+        logging.debug(f'breedPair, parent b: {b}')
         #children_count = 2
         genes_a = None
         genes_b = None
@@ -227,11 +233,13 @@ class SystemManager:
             child_traits.append(trait)
 
         child = Organism(child_genes, child_traits, pop.nextId())
+        logging.debug(f'breedPair, child: {child}')
 
         if random.randint(0,99) == 99:
             self.mutate(child)
             for trait in child.traits:
                 trait.update(child)
+            logging.debug(f'breedPair, after-mutate child: {child}')
 
         else:
             pass
@@ -377,7 +385,7 @@ async def handleRequest(websocket, path):
             await websocket.send("Ok")
         else:
             await websocket.send("Unknown Command")
-            print(f"{message}")
+            print(f"Unknown command: {command_name}")
 
 
 if __name__ == "__main__":
