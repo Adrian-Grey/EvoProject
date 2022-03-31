@@ -10,7 +10,7 @@ from genes import *
 
 pd.options.plotting.backend = "plotly"
 
-#Fix population crash issue
+#Fix mutation bug
 
 #Work on save function, produce population/world snapshots
 
@@ -78,6 +78,10 @@ class Organism:
         for trait in traits:
             trait.attach(self)
 
+    def __str__(self):
+        gene_strings = list(map(lambda gene: str(gene), self.genes))
+        return f'<id: {self.id}, age: {self.age}, gender: {self.gender}, genes: {", ".join(gene_strings)}>'
+
     def __getattr__(self, name):
         # return something when requesting an attribute that doesnt exist on this instance
         return None
@@ -105,7 +109,7 @@ class SystemManager:
     def cull(self, pop):
         for org in pop.get_all():
             if org.age >= org.max_age or org.has_fed == False:
-                logging.debug(f'Culling Organism: {org.id}. Fed: {org.has_fed}. Age: {org.age}')
+                logging.debug(f'Culling Organism: {org}')
                 del pop.items[org.id]
 
     def logPopulation(self, pop, report, world):
@@ -131,16 +135,16 @@ class SystemManager:
     def calcBreedScore(self, pop):
         for organism in pop.items.values():
             organism.breed_score = 100
-            organism.breed_score += organism.redness * -0.25 * 50
-            organism.breed_score += organism.blueness * 0.25 * 50
+            organism.breed_score += organism.redness * -0.125 * 50
+            organism.breed_score += organism.blueness * 0.125 * 50
             organism.breed_score += organism.greenness * 0 * 50
             #logging.debug(f'Organism {organism.id} breed_score: : {organism.breed_score}\n redness: {redness}, greenness: {greenness}, blueness: {blueness}')
 
     def calcFitness(self, pop):
         for organism in pop.items.values():
             organism.fitness = 100
-            organism.fitness += organism.redness * 0.25 * 50
-            organism.fitness += organism.blueness * -0.25 * 50
+            organism.fitness += organism.redness * 0.125 * 50
+            organism.fitness += organism.blueness * -0.125 * 50
             organism.fitness += organism.greenness * 0 * 50
             #logging.debug(f'Organism {organism.id} fitness: : {organism.fitness}\n redness: {organism.redness}, greenness: {organism.greenness}, blueness: {organism.blueness}')
 
@@ -185,6 +189,7 @@ class SystemManager:
         return pairs
 
     def mutate(self, organism):
+        #currently breaks the sim, causes all new children born to be one color
         mutation_target = organism.genes[random.randint(0, len(organism.genes)-1)]
         old_allele = mutation_target.allele
         mutation_target.allele = mutation_target.valid_alleles[random.randint(0, len(mutation_target.valid_alleles)-1)]
@@ -194,7 +199,13 @@ class SystemManager:
         logging.debug("breedPair called")
         a = pair[0]
         b = pair[1]
+<<<<<<< HEAD
+        #children_count = 2Population at end of timestep
+=======
+        logging.debug(f'breedPair, parent a: {a}')
+        logging.debug(f'breedPair, parent b: {b}')
         #children_count = 2
+>>>>>>> 3acdcd0416f4447fdecfbd06286ef58a9bc280d1
         genes_a = None
         genes_b = None
         both_genes = None
@@ -227,18 +238,22 @@ class SystemManager:
             child_traits.append(trait)
 
         child = Organism(child_genes, child_traits, pop.nextId())
+        logging.debug(f'breedPair, child: {child}')
 
         if random.randint(0,99) == 99:
+            #currently disabled. set 100->99 to re-enable.
             self.mutate(child)
             for trait in child.traits:
                 trait.update(child)
+            logging.debug(f'breedPair, after-mutate child: {child}')
 
         else:
             pass
 
         pop.addOrganism(child)
 
-        logging.debug(f"Org {child.id} created. Redness: {child.redness}, R: {child.r}. Greeness: {child.greenness}, G: {child.g}. Blueness: {child.blueness}, B: {child.b}.")
+        logging.debug(f"Org {child.id} created. Redness: {child.redness}, R: {child.r}. Greeness: {child.greenness}, G: {child.g}. Blueness: {child.blueness}, B: {child.b}.\
+        ")
 
     def incrementAge(self, pop):
         for organism in pop.items.values():
@@ -291,15 +306,15 @@ def resetSim():
 
 def initialize():
 
-    FirstOrg = Organism([Coloration_One, Coloration_One, Coloration_Two, Coloration_Two], [traits.Coloration], pop.nextId())
-    SecondOrg = Organism([Coloration_One, Coloration_One, Coloration_Two, Coloration_Two], [traits.Coloration], pop.nextId())
+    FirstOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [traits.Coloration], pop.nextId())
+    SecondOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [traits.Coloration], pop.nextId())
     FirstOrg.gender = 1
     SecondOrg.gender = 0
-    ThirdOrg = Organism([Coloration_One, Coloration_One, Coloration_Two, Coloration_Two], [traits.Coloration], pop.nextId())
-    FourthOrg = Organism([Coloration_One, Coloration_One, Coloration_Two, Coloration_Two], [traits.Coloration], pop.nextId())
-    FifthOrg = Organism([Coloration_One, Coloration_One, Coloration_Two, Coloration_Two], [traits.Coloration], pop.nextId())
-    SixthOrg = Organism([Coloration_One, Coloration_One, Coloration_Two, Coloration_Two], [traits.Coloration], pop.nextId())
-    SeventhOrg = Organism([Coloration_One, Coloration_One, Coloration_Two, Coloration_Two], [traits.Coloration], pop.nextId())
+    ThirdOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [traits.Coloration], pop.nextId())
+    FourthOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [traits.Coloration], pop.nextId())
+    FifthOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [traits.Coloration], pop.nextId())
+    SixthOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [traits.Coloration], pop.nextId())
+    SeventhOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [traits.Coloration], pop.nextId())
 
     initial_generation = [FirstOrg, SecondOrg, ThirdOrg, FourthOrg, FifthOrg, SixthOrg, SeventhOrg]
 
@@ -377,7 +392,7 @@ async def handleRequest(websocket, path):
             await websocket.send("Ok")
         else:
             await websocket.send("Unknown Command")
-            print(f"{message}")
+            print(f"Unknown command: {command_name}")
 
 
 if __name__ == "__main__":
