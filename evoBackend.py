@@ -199,13 +199,11 @@ class SystemManager:
         logging.debug("breedPair called")
         a = pair[0]
         b = pair[1]
-<<<<<<< HEAD
+
         #children_count = 2Population at end of timestep
-=======
         logging.debug(f'breedPair, parent a: {a}')
         logging.debug(f'breedPair, parent b: {b}')
         #children_count = 2
->>>>>>> 3acdcd0416f4447fdecfbd06286ef58a9bc280d1
         genes_a = None
         genes_b = None
         both_genes = None

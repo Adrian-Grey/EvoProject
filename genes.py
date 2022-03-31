@@ -10,7 +10,6 @@ class Gene:
     def __str__(self):
         return f'<name: {self.name}, allele: {self.allele}>'
 
-
 class ColorationOne(Gene):
     def __init__(self):
         self.type = "coloration"
