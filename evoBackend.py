@@ -165,8 +165,6 @@ class SystemManager:
         logging.debug(f"{len(males)} males, {len(females)} females")
         pairs = []
         if len(males) >= 1:
-            def organism_to_string(org):
-                return str(org.id)
             males = sorted(males, key=lambda item: item.breed_score, reverse = True)
             females = sorted(females, key=lambda item: item.breed_score, reverse = True)
             for male in males:
@@ -230,8 +228,12 @@ class SystemManager:
 
             random.shuffle(both_genes)
 
-            for gene in both_genes[0:int(len(both_genes)/2)]:
-                child_genes.append(gene)
+            for old_gene in both_genes[0:int(len(both_genes)/2)]:
+                #creates a new gene instance for child of same type as original, assigns same allele
+                target_gene_class = type(old_gene)
+                target_gene_instance = target_gene_class()
+                target_gene_instance.allele = old_gene.allele
+                child_genes.append(target_gene_instance)
 
             child_traits.append(trait)
 

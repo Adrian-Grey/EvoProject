@@ -41,5 +41,4 @@ class ColorationThree(Gene):
 #changes to one organism's gene seem to be mirrored over entire population
 
 
-
-#all_genes = [ColorationOne, ColorationTwo, ColorationThree]
+all_genes = [ColorationOne, ColorationTwo, ColorationThree]
