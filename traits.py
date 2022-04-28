@@ -1,14 +1,27 @@
 from genes import *
 
+def createTrait(name):
+    for trait in all_traits:
+        if name == trait.name:
+            return trait
+    #no match for the trait name
+    return None
+
+
 class Trait(dict):
     allele_ids = []
     def attach(self, attachee):
         self.update(attachee)
     def detach(self, attachee):
-        # TODO: unattach by resetting any organism properties we set
+        #TODO: unattach by resetting any organism properties we set
         pass
+    def serialize(self):
+        return {
+            "name": self.name
+        }
 
 class _ColorationTrait(Trait):
+    name = "ColorationTrait"
     gene_type = "coloration"
     def attach(self, organism):
         organism.has_color = True
@@ -33,6 +46,7 @@ class _ColorationTrait(Trait):
         organism.blueness = max(0, organism.b - ((organism.r + organism.g)/2))
 
 class _Efficiency(Trait):
+    name = "Efficiency"
     def update(self, organism):
       if organism.has_color:
         organism.efficiency = organism.blueness/255
@@ -41,3 +55,5 @@ class _Efficiency(Trait):
 
 Coloration = _ColorationTrait()
 Efficiency = _Efficiency()
+
+all_traits = [Coloration, Efficiency]

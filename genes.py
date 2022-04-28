@@ -1,6 +1,15 @@
 import logging
 logger = logging.getLogger("genes")
 
+def createGene(name, allele):
+        for gene_class in all_genes:
+            if name == gene_class.__name__:
+                gene = gene_class()
+                gene.allele = allele
+                return gene
+        # no match for the gene name               
+        return None
+
 class Gene:
     def assign(self, allele):
         if allele in self.valid_alleles:
@@ -8,7 +17,12 @@ class Gene:
         else:
             logger.debug(f"Tried to assign invalid allele to {self.name} gene.")
     def __str__(self):
-        return f'<name: {self.name}, allele: {self.allele}>'
+        return f'{self.name}, {self.allele}'
+    def serialize(self):
+        return {
+            'name': self.name,
+            'allele': self.allele 
+        }
 
 class ColorationOne(Gene):
     def __init__(self):

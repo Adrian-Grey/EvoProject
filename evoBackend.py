@@ -5,16 +5,15 @@ import websockets
 import pandas as pd
 import numpy as np
 import plotly.express as px
-import traits
+import os.path
+import json
+import sys
+from traits import *
 from genes import *
 
 pd.options.plotting.backend = "plotly"
 
-#Fix mutation bug
-
-#Work on save function, produce population/world snapshots
-
-#Improve data visualization methods
+#keep working on freeze method, serialize traits and genes
 
 def shift_list(list):
     item = None
@@ -36,6 +35,11 @@ class World:
         if self.resources > self.resource_cap:
             self.resources = self.resource_cap
             logging.debug(f'Resource count set to cap: {self.resource_cap}')
+    def serialize(self):
+        return {
+            'current_time': self.current_time,
+            'resources': self.resources
+        }
     def reset(self):
         self.current_time = 0
         self.resources = 500
@@ -63,6 +67,24 @@ class Population:
         self.items = {}
         self.current_id = 0
         self.info = {}
+    def serialize(self):
+        serialized_pop = []
+        for org in self.get_all(): 
+            serialized_pop.append(org.serialize())
+        return serialized_pop
+    def deserialize(self, data):
+        self.reset()
+        for item in data:
+            genes = list(map(lambda gene: createGene(gene["name"], gene["allele"]), item["genes"]))
+            traits = list(map(lambda trait: createTrait(trait["name"]), item["traits"]))
+            org = Organism(genes, traits, item["id"])
+            org.age = item["age"]
+            org.has_fed = item["has_fed"]
+            org.mature_age = item["mature_age"]
+            org.max_age = item["max_age"]
+            org.gender = item["gender"]
+            self.addOrganism(org)
+
 
 
 class Organism:
@@ -88,6 +110,24 @@ class Organism:
 
     def could_breed(self):
         return self.age >= self.mature_age
+    
+    def serialize(self):
+        trait_list = []
+        for trait in self.traits:
+            trait_list.append(trait.serialize())
+        genes_list = []
+        for gene in self.genes:
+            genes_list.append(gene.serialize())
+        return {
+            'id': self.id,
+            'genes': genes_list,
+            'traits': trait_list,
+            'age': self.age,
+            'has_fed': self.has_fed,
+            'mature_age': self.mature_age,
+            'max_age': self.max_age,
+            'gender': self.gender
+        }
 
 
 class SystemManager:
@@ -241,7 +281,6 @@ class SystemManager:
         logging.debug(f'breedPair, child: {child}')
 
         if random.randint(0,99) == 99:
-            #currently disabled. set 100->99 to re-enable.
             self.mutate(child)
             for trait in child.traits:
                 trait.update(child)
@@ -275,7 +314,10 @@ class SystemManager:
         world.increment()
         self.time_advance(world)
 
+    
 
+
+save_file_path = os.path.join("save_files", "default.json")
 report = []
 population_report = ["time,population,average_red,average_green,average_blue"]
 pop = Population()
@@ -302,19 +344,19 @@ def runSim(count):
     return population_report
 
 def resetSim():
-    initialize()
+    startup()
 
-def initialize():
+def startup():
 
-    FirstOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [traits.Coloration], pop.nextId())
-    SecondOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [traits.Coloration], pop.nextId())
+    FirstOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [Coloration], pop.nextId())
+    SecondOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [Coloration], pop.nextId())
     FirstOrg.gender = 1
     SecondOrg.gender = 0
-    ThirdOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [traits.Coloration], pop.nextId())
-    FourthOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [traits.Coloration], pop.nextId())
-    FifthOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [traits.Coloration], pop.nextId())
-    SixthOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [traits.Coloration], pop.nextId())
-    SeventhOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [traits.Coloration], pop.nextId())
+    ThirdOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [Coloration], pop.nextId())
+    FourthOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [Coloration], pop.nextId())
+    FifthOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [Coloration], pop.nextId())
+    SixthOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [Coloration], pop.nextId())
+    SeventhOrg = Organism([ColorationOne(), ColorationOne(), ColorationTwo(), ColorationTwo()], [Coloration], pop.nextId())
 
     initial_generation = [FirstOrg, SecondOrg, ThirdOrg, FourthOrg, FifthOrg, SixthOrg, SeventhOrg]
 
@@ -331,7 +373,6 @@ def initialize():
 
     pop.reset()
     world.reset()
-
     report.clear()
     population_report.clear()
     population_report.append("time,population,average_red,average_green,average_blue")
@@ -339,6 +380,41 @@ def initialize():
 
     for org in initial_generation:
         pop.addOrganism(org)
+
+def snapshot():
+
+    serialized_pop = pop.serialize()
+    serialized_world = world.serialize()
+    current_id = pop.current_id
+
+    snapshot_file = open(save_file_path, "w+")
+    json_string = json.dumps({ 
+        "current_id": current_id,
+        "world": serialized_world,
+        "population": serialized_pop,
+    },  indent=4)
+    logging.debug(f"snapshot: {json_string}")
+    snapshot_file.write(json_string)
+    snapshot_file.close()
+
+    #return json.dumps({
+    #    "population": serialized_pop,
+    #    "world": serialized_world
+    #})
+
+def load_snapshot(filename):
+    save_file_path = os.path.join("save_files", filename)
+    if os.path.exists(save_file_path):
+        data = json.load(open(save_file_path, "r"))
+        world.current_time = data["world"]["current_time"]
+        world.resources = data["world"]["resources"]
+        pop.deserialize(data["population"])
+        pop.current_id = data["current_id"]
+        #current id must be set after pop deserialize
+        return f"Started with savefile {filename}"
+    else:
+        return f"Failed to start, save file does not exist"
+        
 
 def showColors():
     color_frame = pd.read_csv('population.csv', usecols = ['time', 'average_red', 'average_green', 'average_blue'])
@@ -353,21 +429,31 @@ def showPop():
 def showZoomed():
     zoomed_frame = pd.read_csv('population.csv', usecols = ['population', ''])
 
+def startSim(save):
+    if save == "none":
+        startup()
+        return "Started with fresh start"
+    else:
+        return load_snapshot(save)
+    
 async def main():
-
-    initialize()
-
     # Start the websocket server and run forever waiting for requests
     async with websockets.serve(handleRequest, "localhost", 8765):
         await asyncio.Future()  # run forever
 
 async def handleRequest(websocket, path):
-    #reset command is causing an error, probably getting stuck somewhere in resetSim()
     async for message in websocket:
         parts = message.split(",")
         command_name = parts[0]
         logging.debug(f"Got websocket request")
-        if command_name == "getPop":
+        if command_name == "start":
+            print("Start request recieved")
+            if len(parts) > 1:
+                status = startSim(parts[1])
+            else:
+                status = startSim("none")
+            await websocket.send(f"{status}")
+        elif command_name == "getPop":
             print("Population count request recieved")
             await websocket.send(f"Population count: {len(pop.get_all())}")
             print("Population count sent")
@@ -390,6 +476,11 @@ async def handleRequest(websocket, path):
             showPop()
             showColors()
             await websocket.send("Ok")
+        elif command_name == "snapshot":
+            snapshot()
+            await websocket.send("Ok")
+        elif command_name == "quit":
+            sys.exit()
         else:
             await websocket.send("Unknown Command")
             print(f"Unknown command: {command_name}")
