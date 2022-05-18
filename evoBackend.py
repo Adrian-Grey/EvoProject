@@ -13,8 +13,6 @@ from genes import *
 
 pd.options.plotting.backend = "plotly"
 
-#keep working on freeze method, serialize traits and genes
-
 def shift_list(list):
     item = None
     if len(list) > 0:
@@ -314,10 +312,7 @@ class SystemManager:
         world.increment()
         self.time_advance(world)
 
-    
 
-
-save_file_path = os.path.join("save_files", "default.json")
 report = []
 population_report = ["time,population,average_red,average_green,average_blue"]
 pop = Population()
@@ -381,7 +376,9 @@ def startup():
     for org in initial_generation:
         pop.addOrganism(org)
 
-def snapshot():
+def snapshot(filename):
+
+    save_file_path = os.path.join("save_files", str(filename))
 
     serialized_pop = pop.serialize()
     serialized_world = world.serialize()
@@ -477,7 +474,7 @@ async def handleRequest(websocket, path):
             showColors()
             await websocket.send("Ok")
         elif command_name == "snapshot":
-            snapshot()
+            snapshot(parts[1])
             await websocket.send("Ok")
         elif command_name == "quit":
             sys.exit()

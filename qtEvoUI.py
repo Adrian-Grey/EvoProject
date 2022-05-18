@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtCore, QtWidgets, QtWebSockets, QtNetwork
-from PyQt5.QtWidgets import QMainWindow, QLabel, QGridLayout, QWidget, QPushButton, QPlainTextEdit
+from PyQt5.QtWidgets import QMainWindow, QLabel, QGridLayout, QWidget, QPushButton, QPlainTextEdit, QVBoxLayout
 from PyQt5.QtCore import QSize, QUrl
 
 class Client(QtCore.QObject):
@@ -35,22 +35,38 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(QSize(300, 200))    
         self.setWindowTitle("PyQt button example - pythonprogramminglanguage.com") 
 
-        pybutton = QPushButton('Get population', self)
-        pybutton.clicked.connect(self.clickMethod)
-        pybutton.resize(200,32)
-        pybutton.move(5, 5)
+        layout = QVBoxLayout()
+
+        getpopbutton = QPushButton('Get population', self)
+        getpopbutton.clicked.connect(self.onGetPopClick)
+        
+
+        startbutton = QPushButton('Start', self)
+        startbutton.clicked.connect(self.onStartClick)
+
 
         textinput = QPlainTextEdit(self)
         textinput.setReadOnly(True)
-        textinput.resize(200,32)
-        textinput.move(5, 44)
         self.resultsText = textinput
-        # textinput.setPlaceholderText("Results go here")
         textinput.appendPlainText("Results go here")
 
-    def clickMethod(self):
+        layout.addWidget(startbutton)
+        layout.addWidget(getpopbutton)
+        layout.addWidget(textinput)
+
+        mainWidget = QWidget()
+        mainWidget.setLayout(layout)
+        self.setCentralWidget(mainWidget)
+
+    def onButtonPush(self, input):
         print('Clicked Pyqt button.')
-        client.send_message("getPop")
+        client.send_message(input)
+
+    def onGetPopClick(self):
+        self.onButtonPush("getPop")
+
+    def onStartClick(self):
+        self.onButtonPush("start")
     
     def updateResults(self, text):
         self.resultsText.clear()
