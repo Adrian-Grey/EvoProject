@@ -475,7 +475,7 @@ async def handleRequest(websocket, path):
             await websocket.send("Ok")
         elif command_name == "snapshot":
             snapshot(parts[1])
-            await websocket.send("Ok")
+            await websocket.send(f"Saved gamestate to file {parts[1]}")
         elif command_name == "quit":
             sys.exit()
         else:
