@@ -5,6 +5,8 @@ from PyQt5.QtCore import QSize, QUrl
 
 from evoBackend import snapshot
 
+import json
+
 #make backend command to pass through all save files
 #implement graphs
 
@@ -12,31 +14,52 @@ class Client(QtCore.QObject):
     def __init__(self, parent):
         super().__init__(parent)
 
-        self.client =  QtWebSockets.QWebSocket("",QtWebSockets.QWebSocketProtocol.Version13,None)
-        self.client.error.connect(self.error)
+        self.connected = False
+        self.messageBuffer = []
 
-        self.client.open(QUrl("ws://127.0.0.1:8765"))
-        self.client.textMessageReceived.connect(self.onMessage)
+        self.wsClient = QtWebSockets.QWebSocket("",QtWebSockets.QWebSocketProtocol.Version13,None)
+        self.wsClient.error.connect(self.error)
+
+        self.wsClient.open(QUrl("ws://127.0.0.1:8765"))
+        self.wsClient.textMessageReceived.connect(self.onMessage)
+        self.wsClient.connected.connect(self.onConnected)
+
 
     def send_message(self, msg):
-        print(f"client: send_message: {msg}")
-        self.client.sendTextMessage(msg)
+        if (self.connected):
+            print(f"client: send_message: {msg}")
+            self.wsClient.sendTextMessage(msg)
+        else:
+            self.messageBuffer.append(msg)
+
+    def onConnected(self):
+        self.connected = True
+        for msg in self.messageBuffer:
+            self.send_message(msg)
+        self.messageBuffer.clear()
 
     def onMessage(self, msg):
         print("onMessage: {}".format(msg))
-        mainWin.updateResults(msg)
+        # check what type or kind of message this is
+        # send type=results messages to updateResults
+        # and send other types to the appropriate handler
+        if msg[0] == "{":
+            data = json.loads(msg)
+            mainWin.updateData(data)
+        else:
+            mainWin.updateResults(msg)
 
     def error(self, error_code):
         print("error code: {}".format(error_code))
-        print(self.client.errorString())
+        print(self.wsClient.errorString())
 
     def close(self):
-        self.client.close()
+        self.wsClient.close()
 
 class MainWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, client):
         QMainWindow.__init__(self)
-
+        self.client = client
         self.setMinimumSize(QSize(300, 200))    
         self.setWindowTitle("PyQt button example - pythonprogramminglanguage.com") 
 
@@ -73,8 +96,9 @@ class MainWindow(QMainWindow):
         textoutput.appendPlainText("Results go here")
 
         loadselector = QComboBox(self)
-        loadselector.addItems(["default.json","save1.json","save2.json"])
         self.loadselector = loadselector
+        # fetch the list of saved files
+        self.getSaveFiles()
 
         loadbutton = QPushButton('Load',self)
         loadbutton.clicked.connect(self.onLoadClick)
@@ -127,6 +151,10 @@ class MainWindow(QMainWindow):
     def onSnapshotClick(self):
         self.onButtonPush(f"snapshot,{self.savefile.text()}")
 
+    def getSaveFiles(self):
+        print("sent get save file req")
+        self.client.send_message("save_files")
+
     def onLoadClick(self):
         self.onButtonPush(f"start,{self.loadselector.currentText()}")
     
@@ -134,12 +162,20 @@ class MainWindow(QMainWindow):
         self.resultsText.clear()
         self.resultsText.appendPlainText(text)
 
+    def updateData(self, data):
+        if data["type"] == "save_file_list":
+            print("recieved save file data:")
+            print(data)
+            self.loadselector.clear()
+            for file in data["data"]:
+                self.loadselector.addItem(file)
+
+
 if __name__ == "__main__":
-    global client
     global mainWin
     app = QtWidgets.QApplication(sys.argv)
-    mainWin = MainWindow()
-    mainWin.show()
     client = Client(app)
+    mainWin = MainWindow(client)
+    mainWin.show()
 
     sys.exit( app.exec_() )

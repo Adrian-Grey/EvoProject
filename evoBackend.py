@@ -5,7 +5,8 @@ import websockets
 import pandas as pd
 import numpy as np
 import plotly.express as px
-import os.path
+import os.path as path
+from os import listdir
 import json
 import sys
 from traits import *
@@ -378,7 +379,7 @@ def startup():
 
 def snapshot(filename):
 
-    save_file_path = os.path.join("save_files", str(filename))
+    save_file_path = path.join("save_files", str(filename))
 
     serialized_pop = pop.serialize()
     serialized_world = world.serialize()
@@ -400,8 +401,8 @@ def snapshot(filename):
     #})
 
 def load_snapshot(filename):
-    save_file_path = os.path.join("save_files", filename)
-    if os.path.exists(save_file_path):
+    save_file_path = path.join("save_files", filename)
+    if path.exists(save_file_path):
         data = json.load(open(save_file_path, "r"))
         world.current_time = data["world"]["current_time"]
         world.resources = data["world"]["resources"]
@@ -432,6 +433,17 @@ def startSim(save):
         return "Started with fresh start"
     else:
         return load_snapshot(save)
+
+def listSaveFiles():
+    saveFiles = []
+    print(listdir("save_files"))
+    for name in listdir("save_files"):
+        filename = path.join("save_files", name)
+        logging.debug(f"considering file: {filename}, isfile? {path.isfile(filename)}")
+        if path.isfile(filename):
+            saveFiles.append(name)
+    return saveFiles
+
     
 async def main():
     # Start the websocket server and run forever waiting for requests
@@ -442,7 +454,7 @@ async def handleRequest(websocket, path):
     async for message in websocket:
         parts = message.split(",")
         command_name = parts[0]
-        logging.debug(f"Got websocket request")
+        logging.debug(f"Got websocket request, message: {message}")
         if command_name == "start":
             print("Start request recieved")
             if len(parts) > 1:
@@ -475,7 +487,18 @@ async def handleRequest(websocket, path):
             await websocket.send("Ok")
         elif command_name == "snapshot":
             snapshot(parts[1])
-            await websocket.send(f"Saved gamestate to file {parts[1]}")
+            save_file_msg = {
+                "type": "save_file_list",
+                "data": listSaveFiles()
+            }
+            await websocket.send(json.dumps(save_file_msg))
+        elif command_name == "save_files":
+            save_file_msg = {
+                "type": "save_file_list",
+                "data": listSaveFiles()
+            }
+            await websocket.send(json.dumps(save_file_msg))
+            logging.debug("Sent save files list")
         elif command_name == "quit":
             sys.exit()
         else:
