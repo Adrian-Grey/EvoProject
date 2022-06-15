@@ -1,14 +1,14 @@
 import sys
-from PyQt5 import QtCore, QtWidgets, QtWebSockets, QtNetwork
+from PyQt5 import QtCore, QtWidgets, QtWebSockets, QtNetwork, QtGui
 from PyQt5.QtWidgets import QMainWindow, QLabel, QGridLayout, QWidget, QPushButton, QPlainTextEdit, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit
 from PyQt5.QtCore import QSize, QUrl
-
 from evoBackend import snapshot
 
 import json
 
-#make backend command to pass through all save files
 #implement graphs
+    #pass population data points from dict in backend
+    #use points to draw graph line using PolyLine
 
 class Client(QtCore.QObject):
     def __init__(self, parent):
@@ -106,6 +106,8 @@ class MainWindow(QMainWindow):
         saveselector = QLineEdit(self)
         self.savefile = saveselector
 
+        rectarea = GraphicsWidget()
+
         loadlayout.addWidget(loadselector)
         loadlayout.addWidget(loadbutton)
 
@@ -121,6 +123,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(getpopbutton)
         layout.addWidget(resetbutton)
         layout.addWidget(textoutput)
+        layout.addWidget(rectarea)
 
         mainWidget = QWidget()
         mainWidget.setLayout(layout)
@@ -170,6 +173,23 @@ class MainWindow(QMainWindow):
             for file in data["data"]:
                 self.loadselector.addItem(file)
 
+class GraphicsWidget(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.setFixedSize(300, 300)
+
+    def setPoints(pointsList):
+        self.points = pointsList
+
+    def paintEvent(self, event):
+        painter = QtGui.QPainter(self)
+        height = 300
+        #                      left, top,                    width, height
+        ourRect = QtCore.QRect(0, 0, self.width(), height)
+        painter.fillRect(ourRect, QtGui.QBrush(QtCore.Qt.blue))
+        #pen = QtGui.QPen(QtGui.QColor("red"), 10)
+        #painter.setPen(pen)
+        painter.drawRect(self.rect())
 
 if __name__ == "__main__":
     global mainWin

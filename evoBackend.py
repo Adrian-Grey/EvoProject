@@ -12,6 +12,8 @@ import sys
 from traits import *
 from genes import *
 
+#add historical population data to save file
+
 pd.options.plotting.backend = "plotly"
 
 def shift_list(list):
@@ -319,6 +321,7 @@ population_report = ["time,population,average_red,average_green,average_blue"]
 pop = Population()
 manager = SystemManager()
 world = World()
+population_list = []
 
 def runSim(count):
     while count > 0:
@@ -327,6 +330,10 @@ def runSim(count):
         manager.logPopulation(pop, report, world)
         pop_count = len(pop.get_all())
         population_report.append(f"{world.current_time},{pop_count}, {pop.info['average_red']},{pop.info['average_green']},{pop.info['average_blue']}")
+        population_list.append({
+            "time": world.current_time,
+            "count": pop_count
+        })
         output = open("output.csv", "wt")
         for item in report:
             output.write(f"{item}\n")
@@ -463,9 +470,9 @@ async def handleRequest(websocket, path):
                 status = startSim("none")
             await websocket.send(f"{status}")
         elif command_name == "getPop":
-            print("Population count request recieved")
-            await websocket.send(f"Population count: {len(pop.get_all())}")
-            print("Population count sent")
+            print("Population data request recieved")
+            await websocket.send(json.dumps(population_list, indent=4))
+            print("Population data sent")
         elif command_name == "runSim":
             print(f"Incrementing simulation by t={parts[1]}")
             runSim(int(parts[1]))
