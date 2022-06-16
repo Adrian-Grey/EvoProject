@@ -1,7 +1,7 @@
 import sys
 from PyQt5 import QtCore, QtWidgets, QtWebSockets, QtNetwork, QtGui
 from PyQt5.QtWidgets import QMainWindow, QLabel, QGridLayout, QWidget, QPushButton, QPlainTextEdit, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit
-from PyQt5.QtCore import QSize, QUrl
+from PyQt5.QtCore import *
 from evoBackend import snapshot
 
 import json
@@ -9,6 +9,7 @@ import json
 #implement graphs
     #pass population data points from dict in backend
     #use points to draw graph line using PolyLine
+    #implement dynamic graph scaling
 
 class Client(QtCore.QObject):
     def __init__(self, parent):
@@ -178,18 +179,56 @@ class GraphicsWidget(QWidget):
         super().__init__()
         self.setFixedSize(300, 300)
 
-    def setPoints(pointsList):
-        self.points = pointsList
+
+    def pointProcess(self, pts):
+        maxY = 0
+        maxX = 0
+        for pair in pts:
+            if pair[1] > maxY:
+                maxY = pair[1]
+        for pair in pts:
+            if pair[0] > maxX:
+                maxX = pair[0]
+        for pair in pts:
+            pair[0] = (pair[0] * (self.width() / maxX))
+            pair[1] = (self.height - (pair[1] * (self.height / maxY)))
+        return QtGui.QPolygonF(map(lambda p: QPointF(*p), pts))
+
+    def setPoints(self):
+        self.points = []
+        fakePopulationData = [
+            {
+                "time": 0,
+                "count": 0
+            },
+            {
+                "time": 10,
+                "count": 100
+            },
+            {
+                "time": 15,
+                "count": 50
+            },
+            {
+                "time": 20,
+                "count": 200
+            }
+        ]
+        for pair in fakePopulationData:
+            self.points.append([pair["time"], pair["count"]])
+
 
     def paintEvent(self, event):
+        self.setPoints()
         painter = QtGui.QPainter(self)
-        height = 300
+        self.height = 300
         #                      left, top,                    width, height
-        ourRect = QtCore.QRect(0, 0, self.width(), height)
-        painter.fillRect(ourRect, QtGui.QBrush(QtCore.Qt.blue))
+        ourRect = QtCore.QRect(0, 0, self.width(), self.height)
+        painter.fillRect(ourRect, QtGui.QBrush(QtCore.Qt.white))
         #pen = QtGui.QPen(QtGui.QColor("red"), 10)
         #painter.setPen(pen)
         painter.drawRect(self.rect())
+        painter.drawPolyline(self.pointProcess(self.points))
 
 if __name__ == "__main__":
     global mainWin
