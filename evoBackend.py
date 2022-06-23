@@ -334,6 +334,7 @@ def runSim(count):
             "time": world.current_time,
             "count": pop_count
         })
+        print(f"From runSim: population list length: {len(population_list)}")
         output = open("output.csv", "wt")
         for item in report:
             output.write(f"{item}\n")
@@ -380,6 +381,8 @@ def startup():
     population_report.clear()
     population_report.append("time,population,average_red,average_green,average_blue")
     report.append(f'Time,ID,Age,Red,Green,Blue')
+    population_list.clear()
+    print(f"From startup: population list length: {len(population_list)}")
 
     for org in initial_generation:
         pop.addOrganism(org)
@@ -471,7 +474,12 @@ async def handleRequest(websocket, path):
             await websocket.send(f"{status}")
         elif command_name == "getPop":
             print("Population data request recieved")
-            await websocket.send(json.dumps(population_list, indent=4))
+            print(f"From handleRequest: population list length: {len(population_list)}")
+            message = {
+                "type": "population_list",
+                "data": population_list
+            }
+            await websocket.send(json.dumps(message, indent=4))
             print("Population data sent")
         elif command_name == "runSim":
             print(f"Incrementing simulation by t={parts[1]}")

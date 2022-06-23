@@ -7,9 +7,9 @@ from evoBackend import snapshot
 import json
 
 #implement graphs
-    #pass population data points from dict in backend
-    #use points to draw graph line using PolyLine
-    #implement dynamic graph scaling
+    #improve graph scaling with low # of data points
+    #reset graph on load and reset
+    #add metadata to all handleRequest messages in backend to indicate message type
 
 class Client(QtCore.QObject):
     def __init__(self, parent):
@@ -46,7 +46,9 @@ class Client(QtCore.QObject):
         # and send other types to the appropriate handler
         if msg[0] == "{":
             data = json.loads(msg)
-            mainWin.updateData(data)
+            mainWin.handleData(data)
+        elif "Simulation incremented" in msg:
+            self.send_message("getPop")
         else:
             mainWin.updateResults(msg)
 
@@ -108,6 +110,7 @@ class MainWindow(QMainWindow):
         self.savefile = saveselector
 
         rectarea = GraphicsWidget()
+        self.population_graph = rectarea
 
         loadlayout.addWidget(loadselector)
         loadlayout.addWidget(loadbutton)
@@ -166,21 +169,27 @@ class MainWindow(QMainWindow):
         self.resultsText.clear()
         self.resultsText.appendPlainText(text)
 
-    def updateData(self, data):
+    def handleData(self, data):
         if data["type"] == "save_file_list":
             print("recieved save file data:")
             print(data)
             self.loadselector.clear()
             for file in data["data"]:
                 self.loadselector.addItem(file)
+        elif data["type"] == "population_list": 
+            print("recieved population data")
+            self.population_graph.updatePoints(data["data"])
+
 
 class GraphicsWidget(QWidget):
     def __init__(self):
         super().__init__()
         self.setFixedSize(300, 300)
 
+        self.points = []
 
     def pointProcess(self, pts):
+        #print(f"Number of data points: {len(pts)}")
         maxY = 0
         maxX = 0
         for pair in pts:
@@ -194,32 +203,15 @@ class GraphicsWidget(QWidget):
             pair[1] = (self.height - (pair[1] * (self.height / maxY)))
         return QtGui.QPolygonF(map(lambda p: QPointF(*p), pts))
 
-    def setPoints(self):
-        self.points = []
-        fakePopulationData = [
-            {
-                "time": 0,
-                "count": 0
-            },
-            {
-                "time": 10,
-                "count": 100
-            },
-            {
-                "time": 15,
-                "count": 50
-            },
-            {
-                "time": 20,
-                "count": 200
-            }
-        ]
-        for pair in fakePopulationData:
+    def updatePoints(self, input_data):
+        self.points.clear()
+        for pair in input_data:
             self.points.append([pair["time"], pair["count"]])
+        self.update()
 
 
     def paintEvent(self, event):
-        self.setPoints()
+        print("paintEvent called")
         painter = QtGui.QPainter(self)
         self.height = 300
         #                      left, top,                    width, height
