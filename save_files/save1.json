@@ -1,74 +1,12 @@
 {
-    "current_id": 845,
+    "current_id": 1250,
     "world": {
-        "current_time": 40,
+        "current_time": 60,
         "resources": 50
     },
     "population": [
         {
-            "id": 745,
-            "genes": [
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 4,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
-        },
-        {
-            "id": 746,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "b"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 4,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
-        },
-        {
-            "id": 747,
+            "id": 1166,
             "genes": [
                 {
                     "name": "ColorationTwo",
@@ -76,126 +14,6 @@
                 },
                 {
                     "name": "ColorationOne",
-                    "allele": "b"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 4,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
-        },
-        {
-            "id": 748,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 4,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
-        },
-        {
-            "id": 752,
-            "genes": [
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 4,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
-        },
-        {
-            "id": 753,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 4,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
-        },
-        {
-            "id": 754,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
                     "allele": "r"
                 },
                 {
@@ -204,72 +22,6 @@
                 },
                 {
                     "name": "ColorationOne",
-                    "allele": "b"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "b"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 4,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
-        },
-        {
-            "id": 755,
-            "genes": [
-                {
-                    "name": "ColorationOne",
-                    "allele": "b"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 4,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
-        },
-        {
-            "id": 757,
-            "genes": [
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
                     "allele": "r"
                 }
             ],
@@ -285,7 +37,7 @@
             "gender": 0
         },
         {
-            "id": 758,
+            "id": 1168,
             "genes": [
                 {
                     "name": "ColorationTwo",
@@ -293,42 +45,11 @@
                 },
                 {
                     "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
                     "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "b"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 4,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
-        },
-        {
-            "id": 764,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
                 },
                 {
                     "name": "ColorationOne",
-                    "allele": "b"
+                    "allele": "r"
                 },
                 {
                     "name": "ColorationOne",
@@ -344,26 +65,26 @@
             "has_fed": true,
             "mature_age": 2,
             "max_age": 5,
-            "gender": 1
+            "gender": 0
         },
         {
-            "id": 767,
+            "id": 1169,
             "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "b"
-                },
                 {
                     "name": "ColorationTwo",
                     "allele": "r"
                 },
                 {
                     "name": "ColorationTwo",
-                    "allele": "g"
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
                 }
             ],
             "traits": [
@@ -371,29 +92,29 @@
                     "name": "ColorationTrait"
                 }
             ],
-            "age": 3,
+            "age": 4,
             "has_fed": true,
             "mature_age": 2,
             "max_age": 5,
             "gender": 1
         },
         {
-            "id": 768,
+            "id": 1171,
             "genes": [
                 {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
+                    "name": "ColorationOne",
+                    "allele": "r"
                 },
                 {
                     "name": "ColorationOne",
-                    "allele": "g"
+                    "allele": "r"
                 },
                 {
                     "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
                     "allele": "r"
                 }
             ],
@@ -402,30 +123,30 @@
                     "name": "ColorationTrait"
                 }
             ],
-            "age": 3,
+            "age": 4,
             "has_fed": true,
             "mature_age": 2,
             "max_age": 5,
             "gender": 0
         },
         {
-            "id": 769,
+            "id": 1172,
             "genes": [
                 {
                     "name": "ColorationTwo",
-                    "allele": "g"
+                    "allele": "r"
                 },
                 {
                     "name": "ColorationOne",
-                    "allele": "g"
+                    "allele": "r"
                 },
                 {
                     "name": "ColorationTwo",
-                    "allele": "g"
+                    "allele": "r"
                 },
                 {
                     "name": "ColorationOne",
-                    "allele": "b"
+                    "allele": "r"
                 }
             ],
             "traits": [
@@ -433,29 +154,29 @@
                     "name": "ColorationTrait"
                 }
             ],
-            "age": 3,
+            "age": 4,
             "has_fed": true,
             "mature_age": 2,
             "max_age": 5,
             "gender": 1
         },
         {
-            "id": 770,
+            "id": 1173,
             "genes": [
                 {
-                    "name": "ColorationTwo",
+                    "name": "ColorationOne",
                     "allele": "r"
                 },
                 {
                     "name": "ColorationOne",
-                    "allele": "g"
+                    "allele": "r"
                 },
                 {
                     "name": "ColorationOne",
-                    "allele": "b"
+                    "allele": "r"
                 },
                 {
-                    "name": "ColorationTwo",
+                    "name": "ColorationOne",
                     "allele": "r"
                 }
             ],
@@ -464,30 +185,30 @@
                     "name": "ColorationTrait"
                 }
             ],
-            "age": 3,
+            "age": 4,
             "has_fed": true,
             "mature_age": 2,
             "max_age": 5,
             "gender": 1
         },
         {
-            "id": 771,
+            "id": 1174,
             "genes": [
                 {
                     "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "b"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
+                    "allele": "r"
                 },
                 {
                     "name": "ColorationOne",
-                    "allele": "g"
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
                 }
             ],
             "traits": [
@@ -495,14 +216,14 @@
                     "name": "ColorationTrait"
                 }
             ],
-            "age": 3,
+            "age": 4,
             "has_fed": true,
             "mature_age": 2,
             "max_age": 5,
             "gender": 1
         },
         {
-            "id": 778,
+            "id": 1175,
             "genes": [
                 {
                     "name": "ColorationTwo",
@@ -513,11 +234,11 @@
                     "allele": "r"
                 },
                 {
-                    "name": "ColorationTwo",
-                    "allele": "g"
+                    "name": "ColorationOne",
+                    "allele": "r"
                 },
                 {
-                    "name": "ColorationTwo",
+                    "name": "ColorationOne",
                     "allele": "r"
                 }
             ],
@@ -526,14 +247,14 @@
                     "name": "ColorationTrait"
                 }
             ],
-            "age": 3,
+            "age": 4,
             "has_fed": true,
             "mature_age": 2,
             "max_age": 5,
             "gender": 0
         },
         {
-            "id": 779,
+            "id": 1176,
             "genes": [
                 {
                     "name": "ColorationTwo",
@@ -542,37 +263,6 @@
                 {
                     "name": "ColorationTwo",
                     "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 3,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
-        },
-        {
-            "id": 782,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
                 },
                 {
                     "name": "ColorationTwo",
@@ -588,22 +278,53 @@
                     "name": "ColorationTrait"
                 }
             ],
-            "age": 3,
+            "age": 4,
             "has_fed": true,
             "mature_age": 2,
             "max_age": 5,
             "gender": 1
         },
         {
-            "id": 783,
+            "id": 1177,
             "genes": [
                 {
-                    "name": "ColorationOne",
-                    "allele": "g"
+                    "name": "ColorationTwo",
+                    "allele": "r"
                 },
                 {
                     "name": "ColorationTwo",
-                    "allele": "g"
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 4,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1178,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
                 },
                 {
                     "name": "ColorationTwo",
@@ -626,7 +347,7 @@
             "gender": 0
         },
         {
-            "id": 784,
+            "id": 1179,
             "genes": [
                 {
                     "name": "ColorationTwo",
@@ -637,12 +358,12 @@
                     "allele": "r"
                 },
                 {
-                    "name": "ColorationTwo",
+                    "name": "ColorationOne",
                     "allele": "r"
                 },
                 {
-                    "name": "ColorationTwo",
-                    "allele": "g"
+                    "name": "ColorationOne",
+                    "allele": "r"
                 }
             ],
             "traits": [
@@ -657,50 +378,19 @@
             "gender": 1
         },
         {
-            "id": 799,
+            "id": 1181,
             "genes": [
                 {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
                     "name": "ColorationOne",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 2,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
-        },
-        {
-            "id": 800,
-            "genes": [
+                    "allele": "r"
+                },
                 {
                     "name": "ColorationTwo",
                     "allele": "r"
                 },
                 {
                     "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
+                    "allele": "r"
                 },
                 {
                     "name": "ColorationTwo",
@@ -712,45 +402,14 @@
                     "name": "ColorationTrait"
                 }
             ],
-            "age": 2,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
-        },
-        {
-            "id": 804,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "b"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 2,
+            "age": 3,
             "has_fed": true,
             "mature_age": 2,
             "max_age": 5,
             "gender": 0
         },
         {
-            "id": 805,
+            "id": 1184,
             "genes": [
                 {
                     "name": "ColorationTwo",
@@ -762,11 +421,11 @@
                 },
                 {
                     "name": "ColorationTwo",
-                    "allele": "g"
+                    "allele": "r"
                 },
                 {
-                    "name": "ColorationOne",
-                    "allele": "b"
+                    "name": "ColorationTwo",
+                    "allele": "r"
                 }
             ],
             "traits": [
@@ -774,22 +433,239 @@
                     "name": "ColorationTrait"
                 }
             ],
-            "age": 2,
+            "age": 3,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1185,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 3,
             "has_fed": true,
             "mature_age": 2,
             "max_age": 5,
             "gender": 0
         },
         {
-            "id": 806,
+            "id": 1186,
             "genes": [
                 {
                     "name": "ColorationTwo",
-                    "allele": "g"
+                    "allele": "r"
                 },
                 {
                     "name": "ColorationTwo",
-                    "allele": "b"
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 3,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1187,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 3,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1189,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 3,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1190,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 3,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1191,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 3,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1192,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 3,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1197,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
                 },
                 {
                     "name": "ColorationTwo",
@@ -812,395 +688,1263 @@
             "gender": 1
         },
         {
-            "id": 807,
+            "id": 1199,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 2,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1200,
             "genes": [
                 {
                     "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 2,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1201,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 2,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1202,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 2,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1203,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 2,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1204,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 2,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1205,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 2,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1206,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 2,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1207,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 2,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1208,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 2,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1209,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 2,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1211,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 1,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1213,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 1,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1214,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 1,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1215,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 1,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1216,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 1,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1217,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 1,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1218,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 1,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1219,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 1,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1220,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 1,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1230,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1231,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1232,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1233,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1234,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1235,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1236,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1237,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1238,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1239,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1240,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1241,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1242,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1243,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1244,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1245,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1246,
+            "genes": [
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1247,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1248,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 0
+        },
+        {
+            "id": 1249,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationTwo",
+                    "allele": "r"
+                },
+                {
+                    "name": "ColorationOne",
+                    "allele": "r"
+                }
+            ],
+            "traits": [
+                {
+                    "name": "ColorationTrait"
+                }
+            ],
+            "age": 0,
+            "has_fed": true,
+            "mature_age": 2,
+            "max_age": 5,
+            "gender": 1
+        },
+        {
+            "id": 1250,
+            "genes": [
+                {
+                    "name": "ColorationTwo",
                     "allele": "b"
                 },
                 {
                     "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 1,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
-        },
-        {
-            "id": 810,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 1,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
-        },
-        {
-            "id": 812,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 1,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
-        },
-        {
-            "id": 813,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 1,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
-        },
-        {
-            "id": 814,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
                     "allele": "r"
                 },
                 {
                     "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 1,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
-        },
-        {
-            "id": 815,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
                     "allele": "r"
                 },
                 {
                     "name": "ColorationTwo",
                     "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "b"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 1,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
-        },
-        {
-            "id": 816,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 1,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
-        },
-        {
-            "id": 817,
-            "genes": [
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 1,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
-        },
-        {
-            "id": 818,
-            "genes": [
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 1,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
-        },
-        {
-            "id": 819,
-            "genes": [
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 1,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
-        },
-        {
-            "id": 826,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 1,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
-        },
-        {
-            "id": 827,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 1,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
-        },
-        {
-            "id": 829,
-            "genes": [
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
                 }
             ],
             "traits": [
@@ -1213,502 +1957,248 @@
             "mature_age": 2,
             "max_age": 5,
             "gender": 1
+        }
+    ],
+    "population_list": [
+        {
+            "time": 1,
+            "count": 7
         },
         {
-            "id": 830,
-            "genes": [
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
+            "time": 2,
+            "count": 7
         },
         {
-            "id": 831,
-            "genes": [
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "b"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
+            "time": 3,
+            "count": 7
         },
         {
-            "id": 832,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
+            "time": 4,
+            "count": 7
         },
         {
-            "id": 833,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
+            "time": 5,
+            "count": 10
         },
         {
-            "id": 834,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
+            "time": 6,
+            "count": 15
         },
         {
-            "id": 835,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
+            "time": 7,
+            "count": 18
         },
         {
-            "id": 836,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "b"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
+            "time": 8,
+            "count": 23
         },
         {
-            "id": 837,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
+            "time": 9,
+            "count": 29
         },
         {
-            "id": 838,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
+            "time": 10,
+            "count": 35
         },
         {
-            "id": 839,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
+            "time": 11,
+            "count": 40
         },
         {
-            "id": 840,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "b"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
+            "time": 12,
+            "count": 47
         },
         {
-            "id": 841,
-            "genes": [
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
+            "time": 13,
+            "count": 57
         },
         {
-            "id": 842,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "b"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
+            "time": 14,
+            "count": 66
         },
         {
-            "id": 843,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationOne",
-                    "allele": "b"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
+            "time": 15,
+            "count": 80
         },
         {
-            "id": 844,
-            "genes": [
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 1
+            "time": 16,
+            "count": 100
         },
         {
-            "id": 845,
-            "genes": [
-                {
-                    "name": "ColorationOne",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "g"
-                },
-                {
-                    "name": "ColorationTwo",
-                    "allele": "r"
-                }
-            ],
-            "traits": [
-                {
-                    "name": "ColorationTrait"
-                }
-            ],
-            "age": 0,
-            "has_fed": true,
-            "mature_age": 2,
-            "max_age": 5,
-            "gender": 0
+            "time": 17,
+            "count": 120
+        },
+        {
+            "time": 18,
+            "count": 149
+        },
+        {
+            "time": 19,
+            "count": 188
+        },
+        {
+            "time": 20,
+            "count": 232
+        },
+        {
+            "time": 21,
+            "count": 165
+        },
+        {
+            "time": 22,
+            "count": 79
+        },
+        {
+            "time": 23,
+            "count": 54
+        },
+        {
+            "time": 24,
+            "count": 54
+        },
+        {
+            "time": 25,
+            "count": 65
+        },
+        {
+            "time": 26,
+            "count": 72
+        },
+        {
+            "time": 27,
+            "count": 64
+        },
+        {
+            "time": 28,
+            "count": 70
+        },
+        {
+            "time": 29,
+            "count": 69
+        },
+        {
+            "time": 30,
+            "count": 64
+        },
+        {
+            "time": 31,
+            "count": 58
+        },
+        {
+            "time": 32,
+            "count": 61
+        },
+        {
+            "time": 33,
+            "count": 52
+        },
+        {
+            "time": 34,
+            "count": 57
+        },
+        {
+            "time": 35,
+            "count": 66
+        },
+        {
+            "time": 36,
+            "count": 68
+        },
+        {
+            "time": 37,
+            "count": 65
+        },
+        {
+            "time": 38,
+            "count": 59
+        },
+        {
+            "time": 39,
+            "count": 62
+        },
+        {
+            "time": 40,
+            "count": 60
+        },
+        {
+            "time": 41,
+            "count": 64
+        },
+        {
+            "time": 42,
+            "count": 65
+        },
+        {
+            "time": 43,
+            "count": 60
+        },
+        {
+            "time": 44,
+            "count": 58
+        },
+        {
+            "time": 45,
+            "count": 58
+        },
+        {
+            "time": 46,
+            "count": 57
+        },
+        {
+            "time": 47,
+            "count": 62
+        },
+        {
+            "time": 48,
+            "count": 63
+        },
+        {
+            "time": 49,
+            "count": 63
+        },
+        {
+            "time": 50,
+            "count": 61
+        },
+        {
+            "time": 51,
+            "count": 55
+        },
+        {
+            "time": 52,
+            "count": 56
+        },
+        {
+            "time": 53,
+            "count": 55
+        },
+        {
+            "time": 54,
+            "count": 53
+        },
+        {
+            "time": 55,
+            "count": 53
+        },
+        {
+            "time": 56,
+            "count": 55
+        },
+        {
+            "time": 57,
+            "count": 56
+        },
+        {
+            "time": 58,
+            "count": 58
+        },
+        {
+            "time": 59,
+            "count": 60
+        },
+        {
+            "time": 60,
+            "count": 63
         }
     ]
 }

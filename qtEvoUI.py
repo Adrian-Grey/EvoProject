@@ -170,15 +170,23 @@ class MainWindow(QMainWindow):
         self.resultsText.appendPlainText(text)
 
     def handleData(self, data):
-        if data["type"] == "save_file_list":
-            print("recieved save file data:")
-            print(data)
-            self.loadselector.clear()
-            for file in data["data"]:
-                self.loadselector.addItem(file)
-        elif data["type"] == "population_list": 
-            print("recieved population data")
-            self.population_graph.updatePoints(data["data"])
+        if "success" in data and data["success"]:
+            if data["type"] == "save_file_list":
+                print("recieved save file data:")
+                print(data)
+                self.loadselector.clear()
+                for file in data["data"]:
+                    self.loadselector.addItem(file)
+            elif data["type"] == "population_list": 
+                print("recieved population data")
+                self.population_graph.updatePoints(data["data"])
+            elif data["type"] in ["load_result", "new_start", "reset"]:
+                self.population_graph.updatePoints(data["data"])
+                self.updateResults(data["status_text"])
+        else:
+            print(f"Not success? {data}")
+            self.updateResults(data["status_text"])
+
 
 
 class GraphicsWidget(QWidget):

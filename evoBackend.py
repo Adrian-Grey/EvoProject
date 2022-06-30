@@ -400,6 +400,7 @@ def snapshot(filename):
         "current_id": current_id,
         "world": serialized_world,
         "population": serialized_pop,
+        "population_list" : population_list,
     },  indent=4)
     logging.debug(f"snapshot: {json_string}")
     snapshot_file.write(json_string)
@@ -411,6 +412,7 @@ def snapshot(filename):
     #})
 
 def load_snapshot(filename):
+    global population_list
     save_file_path = path.join("save_files", filename)
     if path.exists(save_file_path):
         data = json.load(open(save_file_path, "r"))
@@ -418,10 +420,20 @@ def load_snapshot(filename):
         world.resources = data["world"]["resources"]
         pop.deserialize(data["population"])
         pop.current_id = data["current_id"]
+        population_list = data["population_list"]
         #current id must be set after pop deserialize
-        return f"Started with savefile {filename}"
+        return {
+            "type": "load_result",
+            "success": True,
+            "status_text": f"Started with savefile {filename}",
+            "data": population_list
+        }
     else:
-        return f"Failed to start, save file does not exist"
+        return {
+            "type": "load_result",
+            "success": False,
+            "status_text": "Requested file does not exist"
+        }
         
 
 def showColors():
@@ -440,7 +452,12 @@ def showZoomed():
 def startSim(save):
     if save == "none":
         startup()
-        return "Started with fresh start"
+        return {
+            "type": "new_start",
+            "success": True,
+            "status_text": "Fresh start",
+            "data": population_list
+        }
     else:
         return load_snapshot(save)
 
@@ -468,15 +485,17 @@ async def handleRequest(websocket, path):
         if command_name == "start":
             print("Start request recieved")
             if len(parts) > 1:
-                status = startSim(parts[1])
+                message = startSim(parts[1])
             else:
-                status = startSim("none")
-            await websocket.send(f"{status}")
+                message = startSim("none")
+            await websocket.send(json.dumps(message, indent=4))
         elif command_name == "getPop":
             print("Population data request recieved")
             print(f"From handleRequest: population list length: {len(population_list)}")
             message = {
                 "type": "population_list",
+                "success": True,
+                "status_text": "",
                 "data": population_list
             }
             await websocket.send(json.dumps(message, indent=4))
@@ -489,7 +508,13 @@ async def handleRequest(websocket, path):
             print("Reset command recieved")
             resetSim()
             print("Simulation reset")
-            await websocket.send("Simulation reset")
+            message = {
+                "type": "reset",
+                "success": True,
+                "status_text": "Simulation reset",
+                "data": population_list
+            }
+            await websocket.send(json.dumps(message, indent=4))
         elif command_name == "showColors":
             showColors()
             await websocket.send("Ok")
@@ -504,12 +529,16 @@ async def handleRequest(websocket, path):
             snapshot(parts[1])
             save_file_msg = {
                 "type": "save_file_list",
+                "success": True,
+                "status_text": "",
                 "data": listSaveFiles()
             }
             await websocket.send(json.dumps(save_file_msg))
         elif command_name == "save_files":
             save_file_msg = {
                 "type": "save_file_list",
+                "success": True,
+                "status_text": "",
                 "data": listSaveFiles()
             }
             await websocket.send(json.dumps(save_file_msg))
