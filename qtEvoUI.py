@@ -8,8 +8,9 @@ import json
 
 #implement graphs
     #improve graph scaling with low # of data points
-    #reset graph on load and reset
-    #add metadata to all handleRequest messages in backend to indicate message type
+    #improve graph functionality in general (axes, scaling, misc)
+    #continue standardizing inter-program messages re: metadata
+
 
 class Client(QtCore.QObject):
     def __init__(self, parent):
@@ -200,15 +201,20 @@ class GraphicsWidget(QWidget):
         #print(f"Number of data points: {len(pts)}")
         maxY = 0
         maxX = 0
+
+        offset = 30
+        graphHeight = self.height() - offset
+        graphWidth = self.width() - offset
+
         for pair in pts:
             if pair[1] > maxY:
                 maxY = pair[1]
-        for pair in pts:
             if pair[0] > maxX:
                 maxX = pair[0]
+        
         for pair in pts:
-            pair[0] = (pair[0] * (self.width() / maxX))
-            pair[1] = (self.height - (pair[1] * (self.height / maxY)))
+            pair[0] = (pair[0] * (graphWidth / maxX)) + offset/2
+            pair[1] = (self.height() - (pair[1] * (graphHeight / maxY))) -offset/2
         return QtGui.QPolygonF(map(lambda p: QPointF(*p), pts))
 
     def updatePoints(self, input_data):
@@ -220,15 +226,25 @@ class GraphicsWidget(QWidget):
 
     def paintEvent(self, event):
         print("paintEvent called")
+
         painter = QtGui.QPainter(self)
-        self.height = 300
+
         #                      left, top,                    width, height
-        ourRect = QtCore.QRect(0, 0, self.width(), self.height)
+        ourRect = QtCore.QRect(0, 0, self.width(), self.height())
         painter.fillRect(ourRect, QtGui.QBrush(QtCore.Qt.white))
         #pen = QtGui.QPen(QtGui.QColor("red"), 10)
         #painter.setPen(pen)
         painter.drawRect(self.rect())
         painter.drawPolyline(self.pointProcess(self.points))
+        offset = 30
+        graphHeight = self.height() - offset
+        graphWidth = self.width() - offset
+        #painter.drawEllipse(QPointF(offset/2, self.height()-offset/2), 10,10)
+        #painter.drawEllipse(QPointF(0, self.height()), 10,10)
+        # x axis
+        painter.drawLine(offset/2,self.height()-offset/2,self.width()-offset/2,self.height()-offset/2)
+        # y axis
+        painter.drawLine(offset/2,offset/2,offset/2,self.height()-offset/2)
 
 if __name__ == "__main__":
     global mainWin
