@@ -1,4 +1,6 @@
 import sys
+import subprocess
+import os
 import numpy as np
 from scipy.stats import norm
 from matplotlib import pyplot as plt
@@ -139,6 +141,10 @@ class MainWindow(QMainWindow):
         mainWidget.setLayout(layout)
         self.setCentralWidget(mainWidget)
 
+    def closeEvent(self, event):
+        client.send_message("quit")
+        super().closeEvent(event)
+
     def onButtonPush(self, input):
         print('Clicked Pyqt button.')
         client.send_message(input)
@@ -223,9 +229,13 @@ class GraphicsWidget(QWidget):
 
 if __name__ == "__main__":
     global mainWin
+    # dir_path = os.path.dirname(os.path.realpath(__file__))
+    # script_pathname = os.path.join(dir_path, "evoBackend.py")
+    # print(f"Spawning subprocess for script_pathname {script_pathname}")
+    # subprocess.Popen(["nohup", "python", script_pathname])
     app = QtWidgets.QApplication(sys.argv)
     client = Client(app)
     mainWin = MainWindow(client)
     mainWin.show()
-
+    print("mainWin.show called, next is sys.exit")      
     sys.exit( app.exec_() )
