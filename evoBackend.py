@@ -414,14 +414,34 @@ def snapshot(filename):
 def load_snapshot(filename):
     global population_list
     save_file_path = path.join("save_files", filename)
+    temptime = 0
+    tempresources = 0
+    temppop = []
+    tempid = 0
+    temppoplist = []
     if path.exists(save_file_path):
-        data = json.load(open(save_file_path, "r"))
+        try:
+            data = json.load(open(save_file_path, "r"))
+            temptime = data["world"]["current_time"]
+            tempresources = data["world"]["resources"]
+            temppop = data["population"]
+            tempid = data["current_id"]
+            temppoplist = data["population_list"]
+
+        except KeyError:
+            return {
+                "type": "load_result",
+                "success": False,
+                "status_text": "Savefile is incompatible"
+            }
+
         world.current_time = data["world"]["current_time"]
         world.resources = data["world"]["resources"]
         pop.deserialize(data["population"])
         pop.current_id = data["current_id"]
         population_list = data["population_list"]
         #current id must be set after pop deserialize
+
         return {
             "type": "load_result",
             "success": True,
@@ -432,7 +452,7 @@ def load_snapshot(filename):
         return {
             "type": "load_result",
             "success": False,
-            "status_text": "Requested file does not exist"
+            "status_text": "Savefile does not exist"
         }
         
 

@@ -1,4 +1,10 @@
 import sys
+import numpy as np
+from scipy.stats import norm
+from matplotlib import pyplot as plt
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import FigureCanvas
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 from PyQt5 import QtCore, QtWidgets, QtWebSockets, QtNetwork, QtGui
 from PyQt5.QtWidgets import QMainWindow, QLabel, QGridLayout, QWidget, QPushButton, QPlainTextEdit, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit
 from PyQt5.QtCore import *
@@ -7,9 +13,8 @@ from evoBackend import snapshot
 import json
 
 #implement graphs
-    #improve graph scaling with low # of data points
-    #improve graph functionality in general (axes, scaling, misc)
-    #continue standardizing inter-program messages re: metadata
+    # continue standardizing inter-program messages re: metadata
+    # figure out next steps
 
 
 class Client(QtCore.QObject):
@@ -193,58 +198,28 @@ class MainWindow(QMainWindow):
 class GraphicsWidget(QWidget):
     def __init__(self):
         super().__init__()
-        self.setFixedSize(300, 300)
+        # self.setFixedSize(300, 300)
 
-        self.points = []
+        self.pointsX = []
+        self.pointsY = []
 
-    def pointProcess(self, pts):
-        #print(f"Number of data points: {len(pts)}")
-        maxY = 0
-        maxX = 0
-
-        offset = 30
-        graphHeight = self.height() - offset
-        graphWidth = self.width() - offset
-
-        for pair in pts:
-            if pair[1] > maxY:
-                maxY = pair[1]
-            if pair[0] > maxX:
-                maxX = pair[0]
+        self.view = FigureCanvas(Figure(figsize=(3, 3)))
+        self.axes = self.view.figure.subplots()
         
-        for pair in pts:
-            pair[0] = (pair[0] * (graphWidth / maxX)) + offset/2
-            pair[1] = (self.height() - (pair[1] * (graphHeight / maxY))) -offset/2
-        return QtGui.QPolygonF(map(lambda p: QPointF(*p), pts))
+        vlayout = QVBoxLayout()
+        vlayout.addWidget(self.view)
+        self.setLayout(vlayout)
 
     def updatePoints(self, input_data):
-        self.points.clear()
+        self.pointsX.clear()
+        self.pointsY.clear()
         for pair in input_data:
-            self.points.append([pair["time"], pair["count"]])
-        self.update()
+            self.pointsX.append(pair["time"])
+            self.pointsY.append(pair["count"])
 
-
-    def paintEvent(self, event):
-        print("paintEvent called")
-
-        painter = QtGui.QPainter(self)
-
-        #                      left, top,                    width, height
-        ourRect = QtCore.QRect(0, 0, self.width(), self.height())
-        painter.fillRect(ourRect, QtGui.QBrush(QtCore.Qt.white))
-        #pen = QtGui.QPen(QtGui.QColor("red"), 10)
-        #painter.setPen(pen)
-        painter.drawRect(self.rect())
-        painter.drawPolyline(self.pointProcess(self.points))
-        offset = 30
-        graphHeight = self.height() - offset
-        graphWidth = self.width() - offset
-        #painter.drawEllipse(QPointF(offset/2, self.height()-offset/2), 10,10)
-        #painter.drawEllipse(QPointF(0, self.height()), 10,10)
-        # x axis
-        painter.drawLine(offset/2,self.height()-offset/2,self.width()-offset/2,self.height()-offset/2)
-        # y axis
-        painter.drawLine(offset/2,offset/2,offset/2,self.height()-offset/2)
+        self.axes.clear()
+        self.axes.plot(self.pointsX, self.pointsY)
+        self.view.draw()
 
 if __name__ == "__main__":
     global mainWin
