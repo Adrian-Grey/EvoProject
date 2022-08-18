@@ -8,15 +8,16 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT
 from PyQt5 import QtCore, QtWidgets, QtWebSockets, QtNetwork, QtGui
-from PyQt5.QtWidgets import QMainWindow, QLabel, QGridLayout, QWidget, QPushButton, QPlainTextEdit, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit
+from PyQt5.QtWidgets import QMainWindow, QLabel, QGridLayout, QWidget, QPushButton, QPlainTextEdit, QVBoxLayout, QHBoxLayout, QComboBox, QLineEdit, QTabWidget
 from PyQt5.QtCore import *
 from evoBackend import snapshot
 
 import json
 
-#implement graphs
-    # continue standardizing inter-program messages re: metadata
-    # figure out next steps
+    # 1) continue standardizing inter-program messages re: metadata
+    # 2/3) implement views for population characteristics (color for now)
+    # 3/2) implement system clock, change from on-press progression to constant w/ speed control.
+    # 4) add meaningful traits, expand on evolution part of EvoProject
 
 
 class Client(QtCore.QObject):
@@ -126,6 +127,13 @@ class MainWindow(QMainWindow):
         savelayout.addWidget(snapshotbutton)
         savelayout.addWidget(saveselector)
 
+        self.tabs = QTabWidget()
+        self.tab1 = rectarea
+        self.tab2 = QWidget()
+
+        self.tabs.addTab(self.tab1,"Population")
+        self.tabs.addTab(self.tab2,"Color")
+
         layout.addWidget(startbutton)
         layout.addLayout(savelayout)
         layout.addLayout(loadlayout)
@@ -135,7 +143,7 @@ class MainWindow(QMainWindow):
         layout.addWidget(getpopbutton)
         layout.addWidget(resetbutton)
         layout.addWidget(textoutput)
-        layout.addWidget(rectarea)
+        layout.addWidget(self.tabs)
 
         mainWidget = QWidget()
         mainWidget.setLayout(layout)
