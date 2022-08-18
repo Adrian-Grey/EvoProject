@@ -229,10 +229,10 @@ class GraphicsWidget(QWidget):
 
 if __name__ == "__main__":
     global mainWin
-    # dir_path = os.path.dirname(os.path.realpath(__file__))
-    # script_pathname = os.path.join(dir_path, "evoBackend.py")
-    # print(f"Spawning subprocess for script_pathname {script_pathname}")
-    # subprocess.Popen(["nohup", "python", script_pathname])
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    script_pathname = os.path.join(dir_path, "evoBackend.py")
+    print(f"Spawning subprocess for script_pathname {script_pathname}")
+    subprocess.Popen(["python", script_pathname])
     app = QtWidgets.QApplication(sys.argv)
     client = Client(app)
     mainWin = MainWindow(client)
