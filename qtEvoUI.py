@@ -14,7 +14,7 @@ from evoBackend import snapshot
 
 import json
 
-    # 1) continue standardizing inter-program messages re: metadata
+    # 1) continue standardizing inter-program messages re: metadata - DONE
     # 2/3) implement views for population characteristics (color for now)
     # 3/2) implement system clock, change from on-press progression to constant w/ speed control.
     # 4) add meaningful traits, expand on evolution part of EvoProject
@@ -56,10 +56,8 @@ class Client(QtCore.QObject):
         if msg[0] == "{":
             data = json.loads(msg)
             mainWin.handleData(data)
-        elif "Simulation incremented" in msg:
-            self.send_message("getPop")
         else:
-            mainWin.updateResults(msg)
+            mainWin.updateStatusText(msg)
 
     def error(self, error_code):
         print("error code: {}".format(error_code))
@@ -104,8 +102,7 @@ class MainWindow(QMainWindow):
 
         textoutput = QPlainTextEdit(self)
         textoutput.setReadOnly(True)
-        self.resultsText = textoutput
-        textoutput.appendPlainText("Results go here")
+        self.statusText = textoutput
 
         loadselector = QComboBox(self)
         self.loadselector = loadselector
@@ -185,9 +182,9 @@ class MainWindow(QMainWindow):
     def onLoadClick(self):
         self.onButtonPush(f"start,{self.loadselector.currentText()}")
     
-    def updateResults(self, text):
-        self.resultsText.clear()
-        self.resultsText.appendPlainText(text)
+    def updateStatusText(self, text):
+        self.statusText.clear()
+        self.statusText.appendPlainText(text)
 
     def handleData(self, data):
         if "success" in data and data["success"]:
@@ -202,10 +199,13 @@ class MainWindow(QMainWindow):
                 self.population_graph.updatePoints(data["data"])
             elif data["type"] in ["load_result", "new_start", "reset"]:
                 self.population_graph.updatePoints(data["data"])
-                self.updateResults(data["status_text"])
+                self.updateStatusText(data["status_text"])
+            elif data["type"] == "runSim":
+                self.updateStatusText(data["status_text"])
+                client.send_message("getPop")
         else:
             print(f"Not success? {data}")
-            self.updateResults(data["status_text"])
+            self.updateStatusText(data["status_text"])
 
 
 

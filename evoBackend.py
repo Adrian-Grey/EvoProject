@@ -466,21 +466,6 @@ def showPop():
 
     pop_frame.plot(x='time', y=['population']).show()
 
-def showZoomed():
-    zoomed_frame = pd.read_csv('population.csv', usecols = ['population', ''])
-
-def startSim(save):
-    if save == "none":
-        startup()
-        return {
-            "type": "new_start",
-            "success": True,
-            "status_text": "Fresh start",
-            "data": population_list
-        }
-    else:
-        return load_snapshot(save)
-
 def listSaveFiles():
     saveFiles = []
     print(listdir("save_files"))
@@ -505,36 +490,50 @@ async def handleRequest(websocket, path):
         if command_name == "start":
             print("Start request recieved")
             if len(parts) > 1:
-                message = startSim(parts[1])
+                load_snapshot(parts[1])
+                print("Save file loaded")
             else:
-                message = startSim("none")
-            await websocket.send(json.dumps(message, indent=4))
+                startup()
+                print("Startup called")
+                return_message = {
+                    "type": "new_start",
+                    "success": True,
+                    "status_text": "Fresh start",
+                    "data": population_list
+                }
+                await websocket.send(json.dumps(return_message, indent=4))
+                
         elif command_name == "getPop":
             print("Population data request recieved")
             print(f"From handleRequest: population list length: {len(population_list)}")
-            message = {
+            return_message = {
                 "type": "population_list",
                 "success": True,
                 "status_text": "",
                 "data": population_list
             }
-            await websocket.send(json.dumps(message, indent=4))
+            await websocket.send(json.dumps(return_message, indent=4))
             print("Population data sent")
         elif command_name == "runSim":
             print(f"Incrementing simulation by t={parts[1]}")
             runSim(int(parts[1]))
-            await websocket.send(f"Simulation incremented by t={parts[1]}")
+            return_message = {
+                "type": "runSim",
+                "success": True,
+                "status_text": f"Simulation incremented by t={parts[1]}",
+            }
+            await websocket.send(json.dumps(return_message, indent=4))
         elif command_name == "reset":
             print("Reset command recieved")
             resetSim()
             print("Simulation reset")
-            message = {
+            return_message = {
                 "type": "reset",
                 "success": True,
                 "status_text": "Simulation reset",
                 "data": population_list
             }
-            await websocket.send(json.dumps(message, indent=4))
+            await websocket.send(json.dumps(return_message, indent=4))
         elif command_name == "showColors":
             showColors()
             await websocket.send("Ok")
@@ -547,26 +546,31 @@ async def handleRequest(websocket, path):
             await websocket.send("Ok")
         elif command_name == "snapshot":
             snapshot(parts[1])
-            save_file_msg = {
+            return_message = {
                 "type": "save_file_list",
                 "success": True,
                 "status_text": "",
                 "data": listSaveFiles()
             }
-            await websocket.send(json.dumps(save_file_msg))
+            await websocket.send(json.dumps(return_message))
         elif command_name == "save_files":
-            save_file_msg = {
+            return_message = {
                 "type": "save_file_list",
                 "success": True,
                 "status_text": "",
                 "data": listSaveFiles()
             }
-            await websocket.send(json.dumps(save_file_msg))
+            await websocket.send(json.dumps(return_message))
             logging.debug("Sent save files list")
         elif command_name == "quit":
             sys.exit()
         else:
-            await websocket.send("Unknown Command")
+            return_message = {
+                "type": "unknown",
+                "success": False,
+                "status_text": f"Unknown command: {command_name}. If you are reading this, something has gone very wrong.",
+            }
+            await websocket.send(json.dumps(return_message))
             print(f"Unknown command: {command_name}")
 
 
