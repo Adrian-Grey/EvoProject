@@ -16,7 +16,9 @@ import json
 
     # 1) continue standardizing inter-program messages re: metadata - DONE
     # 2/3) implement views for population characteristics (color for now)
-    # 3/2) implement system clock, change from on-press progression to constant w/ speed control.
+    # 3/2) implement system clock, change from on-press progression to constant w/ speed control.   <-- CURRENT
+        # - System clock should send out pings to the websocket port that can trigger processes in other programs
+        # - UI should have buttons that send messages to the system clock to regulate the timer interval / pause
     # 4) add meaningful traits, expand on evolution part of EvoProject
 
 

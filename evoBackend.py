@@ -12,7 +12,9 @@ import sys
 from traits import *
 from genes import *
 
-#add historical population data to save file
+#figure out asyncio clocks, add to main or eventHandler
+    # compose of one async task repeatedly calling itself?
+    # use callback scheduling
 
 pd.options.plotting.backend = "plotly"
 
@@ -482,7 +484,13 @@ async def main():
     async with websockets.serve(handleRequest, "localhost", 8765):
         await asyncio.Future()  # run forever
 
+websocket_clients = []
+
 async def handleRequest(websocket, path):
+    print("websocket server has new incoming client connection")
+    # websocket represents a connection to a new client
+    # websocket_clients.add(websocket)
+
     async for message in websocket:
         parts = message.split(",")
         command_name = parts[0]
@@ -514,6 +522,7 @@ async def handleRequest(websocket, path):
             }
             await websocket.send(json.dumps(return_message, indent=4))
             print("Population data sent")
+            
         elif command_name == "runSim":
             print(f"Incrementing simulation by t={parts[1]}")
             runSim(int(parts[1]))

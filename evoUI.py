@@ -18,7 +18,7 @@ async def main():
         command = input()
         if command == "quit":
             running = False
-            await sim_command(command)
+            await sim_command(command)  
         else:
             await sim_command(command)
 
